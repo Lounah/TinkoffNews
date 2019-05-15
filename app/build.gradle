@@ -1,34 +1,129 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply from: "$project.rootDir/secretconfig.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion build_versions.target_sdk
     defaultConfig {
         applicationId "com.lounah.tinkoffnews"
-        minSdkVersion 19
-        targetSdkVersion 28
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
         versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionName "0.0.1 от " + getDate()
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "DB_NAME", "\"tinkoff_news.db\"")
     }
+
+    signingConfigs {
+        config {
+            keyAlias signConfigs.keyAlias
+            keyPassword signConfigs.keyPassword
+            storeFile file(signConfigs.storeFile)
+            storePassword signConfigs.storePassword
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
+        debug {
+            multiDexEnabled true
+            minifyEnabled false
+            testCoverageEnabled true
+        }
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include "x86", "armeabi-v7a"
+            universalApk true
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
-    implementation 'androidx.core:core-ktx:1.2.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // //// BASE DEPENDENCIES
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    implementation deps.android_ktx
+    implementation deps.support.app_compat
+    implementation deps.support.recycler
+    implementation deps.support.design
+    implementation deps.support.card_view
+    implementation deps.support.constraint
+    implementation deps.timber
+
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // //// PERSISTENCE
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    implementation deps.room.runtime
+    implementation deps.room.rxjava
+    kapt deps.room.compiler
+
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // //// NETWORK
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    implementation deps.retrofit.runtime
+    implementation deps.retrofit.rxadapter
+    implementation deps.retrofit.factory
+
+
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // //// REACTIVE
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    implementation deps.rx.rxjava
+    implementation deps.rx.rxandroid
+
+
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // //// ARCH
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    implementation deps.dagger.runtime
+    implementation deps.dagger.support
+    kapt deps.dagger.processor
+    kapt deps.dagger.compiler
+    implementation deps.arch_core.lifecycle_extension
+
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // //// TESTING
+    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    testImplementation deps.tests.junit
+    testImplementation deps.tests.hamcrest
+    testImplementation deps.tests.mockito
+    testImplementation deps.tests.robolectric
+    testImplementation deps.arch_core.testing
+
+    androidTestImplementation deps.tests.espressoContrib
+    androidTestImplementation deps.tests.androidTestRules
+    androidTestImplementation deps.tests.espressoCore
+
+}
+
+static def getDate() {
+    return new Date().format('yyyy/MM/dd')
 }
