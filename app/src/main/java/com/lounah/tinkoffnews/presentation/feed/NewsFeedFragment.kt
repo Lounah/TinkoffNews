@@ -1,16 +1,24 @@
 package com.lounah.tinkoffnews.presentation.feed
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.common.BaseFragment
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedAdapter
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedOnScrollListener
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import kotlinx.android.synthetic.main.fragment_news_feed.*
+import javax.inject.Inject
 
-class NewsFeedFragment : BaseFragment() {
+private const val VIEW_DATA = 0
+private const val VIEW_PROGRESS = 1
+private const val VIEW_ERROR = 2
+
+class NewsFeedFragment : BaseFragment(), NewsFeedView {
     override val TAG = "news_feed"
     override val layoutRes = R.layout.fragment_news_feed
+
+    @Inject lateinit var presenter: NewsFeedPresenter
 
     private lateinit var newsFeedAdapter: NewsFeedAdapter
     private lateinit var newsFeedListOnScrollListener: NewsFeedOnScrollListener
@@ -18,12 +26,54 @@ class NewsFeedFragment : BaseFragment() {
     override fun initUI() {
         setUpToolbar()
         setUpRecyclerView()
+        setUpSwipeRefreshLayout()
+        presenter.attachView(this)
+        presenter.onCreate()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.detachView()
+    }
+
+    override fun showErrorToast(msg: String) {
+        showToast(msg, gravity = null)
+    }
+
+    override fun showFullscreenError() {
+        if (viewFlipperNewsFeed.displayedChild != VIEW_ERROR) {
+            viewFlipperNewsFeed.displayedChild = VIEW_ERROR
+        }
+        toolbarNewsFeed.setShouldShowElevation(true)
+    }
+
+    override fun showFullscreenLoading() {
+        if (viewFlipperNewsFeed.displayedChild != VIEW_PROGRESS) {
+            viewFlipperNewsFeed.displayedChild = VIEW_PROGRESS
+        }
+    }
+
+    override fun showPagingLoading() {
+        newsFeedAdapter.showLoading()
+    }
+
+    override fun showData(feed: List<StoryViewObject>) {
+        if (viewFlipperNewsFeed.displayedChild != VIEW_DATA) {
+            viewFlipperNewsFeed.displayedChild = VIEW_DATA
+        }
+        newsFeedAdapter.hideLoading()
+        newsFeedAdapter.addItems(feed)
+    }
+
+    override fun hideSwipeRefresh() {
+        swipeRefreshNewsFeed.isRefreshing = false
     }
 
     private fun setUpToolbar() {
         toolbarNewsFeed.apply {
             hideMenuIcon()
             hideNavigationIcon()
+            setShouldShowElevation(false)
             setTitle(getString(R.string.feed))
         }
     }
@@ -45,9 +95,20 @@ class NewsFeedFragment : BaseFragment() {
                     newsFeedAdapter.showLoading()
                     // TODO: additional logic
                 }
+
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                }
             }
             addOnScrollListener(newsFeedListOnScrollListener)
         }
 
+    }
+
+    private fun setUpSwipeRefreshLayout() {
+        swipeRefreshNewsFeed.setOnRefreshListener {
+            // TODO: impl this
+        }
     }
 }

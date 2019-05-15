@@ -1,11 +1,11 @@
 package com.lounah.tinkoffnews.presentation.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.lounah.tinkoffnews.R
+import com.lounah.tinkoffnews.presentation.common.BaseActivity
 import com.lounah.tinkoffnews.presentation.feed.NewsFeedFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

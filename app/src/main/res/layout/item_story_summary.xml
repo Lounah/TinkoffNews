@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:background="?selectableItemBackgroundBorderless"
+    android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textViewItemStoryTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="4dp"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        tools:text="Тинькофф Банк начинает сотрудничество с кафедрой математических и компьютерных методов анализа мехмата МГУ"/>
+
+    <com.lounah.tinkoffnews.presentation.widget.ResponsiveImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/messenger_icons_bookmark_32"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <ImageView
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/fb_ic_clock_outline_16"
+            android:tint="@color/grayLight"/>
+
+        <TextView
+            android:id="@+id/textViewItemStoryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/grayLight"
+            android:textSize="12sp"
+            tools:text="23 December 2019"/>
+
+    </FrameLayout>
 </LinearLayout>

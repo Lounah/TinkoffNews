@@ -8,12 +8,13 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
+        app:elevation="0dp"
         android:layout_height="@dimen/app_bar_height">
 
         <com.lounah.tinkoffnews.presentation.widget.SimpleToolbar
             android:id="@+id/toolbarNewsFeed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlways|snap"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -24,15 +25,23 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewNewsFeed"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshNewsFeed"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingStart="@dimen/default_padding"
-            android:paddingTop="@dimen/default_small_padding"
-            android:paddingEnd="@dimen/default_padding"
-            android:paddingBottom="@dimen/default_padding"/>
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewNewsFeed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                tools:listitem="@layout/item_story_summary"
+                android:paddingStart="@dimen/default_padding"
+                android:paddingTop="@dimen/default_small_padding"
+                android:paddingEnd="@dimen/default_padding"
+                android:paddingBottom="@dimen/default_padding"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <include layout="@layout/view_loading"/>
 
@@ -47,8 +56,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:visibility="gone"
         app:fabSize="mini"
-        app:layout_anchor="@id/recyclerViewNewsFeed"
+        app:layout_anchor="@id/viewFlipperNewsFeed"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_arrow_up"/>
 

@@ -3,4 +3,8 @@
     <string name="feed">Новости</string>
 
     <string name="error_state_default_state">Не удалось загрузить данные</string>
+    <string name="error_state_default_retry">Попробовать снова</string>
+    <string name="bottom_navigation_feed">Новости</string>
+    <string name="bottom_navigation_bookmarks">Закладки</string>
+    <string name="bottom_navigation_settings">Настройки</string>
 </resources>

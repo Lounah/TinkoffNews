@@ -1,6 +1,7 @@
 package com.lounah.tinkoffnews.presentation.widget
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -23,16 +24,22 @@ class SimpleToolbar : FrameLayout {
         textViewTitle.text = title
     }
 
-    fun setNavigationIcon(@DrawableRes src: Int, onClickListener: () -> (Unit)) {
+    fun setNavigationIcon(@DrawableRes src: Drawable, onClickListener: () -> (Unit)) {
 
     }
 
-    fun setMenuIcon(@DrawableRes src: Int, onClickListener: () -> (Unit)) {
-
+    fun setMenuIcon(@DrawableRes src: Drawable, onClickListener: () -> (Unit)) {
+        buttonMenu.apply {
+            show()
+            setImageDrawable(src)
+            setOnClickListener {
+                onClickListener.invoke()
+            }
+        }
     }
 
     fun hideMenuIcon() {
-        buttonNewsFeedShowAdvancedInfo.hide()
+        buttonMenu.hide()
     }
 
     fun hideNavigationIcon() {

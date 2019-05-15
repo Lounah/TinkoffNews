@@ -6,6 +6,10 @@
     <color name="black">#000000</color>
     <color name="azure">#0f9df0</color>
     <color name="yellow">#FFE200</color>
+    <color name="gray">#505050</color>
+    <color name="grayLight">#706F6F</color>
+
+    <color name="white_alpha_05">#80FFFFFF</color>
 
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/black</color>

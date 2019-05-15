@@ -31,7 +31,7 @@
         android:paddingRight="@dimen/default_padding"
         android:text="@string/error_state_default_state"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_body"/>
+        android:textSize="@dimen/text_large_body"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonRetryError"
@@ -42,7 +42,7 @@
         android:layout_marginTop="32dp"
         android:textColor="@color/azure"
         android:textSize="@dimen/text_body"
-        tools:text="Попробовать снова"/>
+        android:text="@string/error_state_default_retry"/>
 
     <Space
         android:layout_width="1dp"

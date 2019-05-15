@@ -28,7 +28,7 @@
         tools:text="@string/feed"/>
 
     <com.lounah.tinkoffnews.presentation.widget.ResponsiveImageButton
-        android:id="@+id/buttonNewsFeedShowAdvancedInfo"
+        android:id="@+id/buttonMenu"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_gravity="center_vertical|end"
@@ -43,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_gravity="bottom"
-        android:background="@drawable/bg_elevation_light_bottom"/>
+        android:background="@drawable/bg_elevation_light_bottom"
+        android:visibility="gone"/>
 
 </merge>

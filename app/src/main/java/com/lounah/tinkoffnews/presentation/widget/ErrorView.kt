@@ -54,16 +54,6 @@ class ErrorView : LinearLayout {
                                 R.string.error_state_default_state
                         )
                 )
-                val buttonTextResId = a.getResourceId(
-                        R.styleable.ErrorView_errorButton,
-                        -1
-                )
-                if (buttonTextResId != -1) {
-                    buttonRetryError.show()
-                    buttonRetryError.setText(buttonTextResId)
-                } else {
-                    buttonRetryError.invisible()
-                }
             } finally {
                 a.recycle()
             }
