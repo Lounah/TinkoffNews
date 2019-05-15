@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.main.MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height">
+
+        <com.lounah.tinkoffnews.presentation.widget.SimpleToolbar
+            android:id="@+id/toolbarNewsFeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways|snap"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ViewFlipper
+        android:id="@+id/viewFlipperNewsFeed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewNewsFeed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/default_padding"
+            android:paddingTop="@dimen/default_small_padding"
+            android:paddingEnd="@dimen/default_padding"
+            android:paddingBottom="@dimen/default_padding"/>
+
+        <include layout="@layout/view_loading"/>
+
+        <com.lounah.tinkoffnews.presentation.widget.ErrorView
+            android:id="@+id/errorViewNewsFeed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </ViewFlipper>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:fabSize="mini"
+        app:layout_anchor="@id/recyclerViewNewsFeed"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/ic_arrow_up"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
