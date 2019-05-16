@@ -11,6 +11,7 @@ android {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         versionName "0.0.1 от " + getDate()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -79,6 +80,8 @@ dependencies {
     implementation deps.support.card_view
     implementation deps.support.constraint
     implementation deps.timber
+
+    implementation 'com.android.support:multidex:1.0.3'
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // //// PERSISTENCE
