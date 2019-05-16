@@ -16,10 +16,10 @@ private const val VIEW_PROGRESS = 1
 private const val VIEW_ERROR = 2
 
 class NewsFeedFragment : BaseFragment(), NewsFeedView {
-    override val TAG = "news_feed"
     override val layoutRes = R.layout.fragment_news_feed
 
     companion object {
+        fun getFragmentTag() = "news_feed"
         fun newInstance(): NewsFeedFragment = NewsFeedFragment()
     }
 
@@ -49,7 +49,6 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         if (viewFlipperNewsFeed.displayedChild != VIEW_ERROR) {
             viewFlipperNewsFeed.displayedChild = VIEW_ERROR
         }
-        toolbarNewsFeed.setShouldShowElevation(true)
         errorViewNewsFeed.setErrorButton(R.string.error_state_default_retry) {
             presenter.onRetryClicked()
         }

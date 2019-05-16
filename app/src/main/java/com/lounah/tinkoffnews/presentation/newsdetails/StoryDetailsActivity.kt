@@ -94,7 +94,7 @@ class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
     private fun setUpToolbar() {
         toolbarStoryDetails.apply {
             setShouldShowElevation(false)
-            setMenuIcon(context.getDrawableCompat(R.drawable.messenger_icons_bookmark_32)!!) {
+            setMenuIcon(context.getDrawableCompat(R.drawable.ic_bookmark_white)!!) {
 
             }
             setNavigationIcon(context.getDrawableCompat(R.drawable.ic_arrow_back_black_24dp)!!) {

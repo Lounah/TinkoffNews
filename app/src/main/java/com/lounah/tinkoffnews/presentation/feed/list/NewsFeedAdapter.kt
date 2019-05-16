@@ -62,6 +62,15 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
         }
     }
 
+    fun removeItemById(itemId: Int) {
+        val item = items.firstOrNull { it.id == itemId }
+        item?.let {
+            val index = items.indexOf(it)
+            items.remove(it)
+            notifyItemRemoved(index)
+        }
+    }
+
     fun getEarliestItem() = items.lastOrNull()
 
 }

@@ -20,12 +20,6 @@ class MainActivity : BaseActivity(), MainMvpView {
         private const val EXTRA_CURRENT_TAB_TYPE = "currentTabType"
         private const val EXTRA_TABS_STACK = "tabsStack"
         private const val EXTRA_START_TAB = "startTab"
-
-        fun createStartIntent(context: Context, startTab: BottomNavigationItemType? = null): Intent {
-            val intent = Intent(context, MainActivity::class.java)
-            startTab?.let { intent.putExtra(EXTRA_START_TAB, startTab) }
-            return intent
-        }
     }
 
     @Inject
@@ -54,15 +48,7 @@ class MainActivity : BaseActivity(), MainMvpView {
         restoreTabsStack(savedInstanceState)
 
         setupBottomNavigationView(navigationItemsHelper.navigationItems)
-//
-//        setupBottomNavigationView(navigationItemsHelper.navigationItems)
-//        if (savedInstanceState == null) {
-//            setUpMainFragment()
-//        }
-//        bottomNavigationMain.setOnNavigationItemSelectedListener {
-//            when (it.itemId) {
-//            }
-//        }
+
         presenter.onViewCreated(
                 intent.extras?.getSerializable(EXTRA_START_TAB) as BottomNavigationItemType?,
                 savedInstanceState?.getSerializable(EXTRA_CURRENT_TAB_TYPE) as BottomNavigationItemType?,

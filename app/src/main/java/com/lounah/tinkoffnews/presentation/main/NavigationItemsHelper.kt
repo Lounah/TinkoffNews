@@ -9,19 +9,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.bookmarks.BookmarksFragment
+import com.lounah.tinkoffnews.presentation.common.BaseFragment
 import com.lounah.tinkoffnews.presentation.feed.NewsFeedFragment
 import com.lounah.tinkoffnews.presentation.settings.SettingsFragment
+import timber.log.Timber
 import java.util.LinkedHashSet
 import javax.inject.Inject
 
-/** в будующих релизах сменится главный таб. Нужно будет поменять именно этот парметр,
- * т.к. на нем строится навигация по табам */
 val MAIN_TAB_TYPE = BottomNavigationItemType.TAB_FEED
 
 class NavigationItemsHelper
 @Inject constructor() {
 
-    /** переменная хранит всю информацию по пунктам нижнего меню, необходимую, чтобы реализовать навигацию по табам с бекстеком */
     val navigationItems: ArrayList<BottomNavigationItem> = createBottomNavigationItems()
 
     private fun createBottomNavigationItems(): ArrayList<BottomNavigationItem> {
@@ -57,12 +56,12 @@ class NavigationItemsHelper
         return menuItems
     }
 
-    /** этот метод должен быть в презентере. Но я пока не придумал, как избавиться тут от зависимостей андроида */
     fun onNavigationItemSelected(
         modelMenuItem: BottomNavigationItem,
         supportFragmentManager: FragmentManager,
         tabsTack: ReorderedLinkedHashSet<String>
     ): Boolean {
+
         val topFragment = supportFragmentManager.findFragmentById(R.id.containerMain)
 
         if (topFragment != null && topFragment.tag == modelMenuItem.type.fragmentTag) {
@@ -116,9 +115,9 @@ data class BottomNavigationItem(
 )
 
 enum class BottomNavigationItemType(val fragmentTag: String) {
-    TAB_FEED(NewsFeedFragment::TAG.toString()),
-    TAB_BOOKMARKS(BookmarksFragment::TAG.toString()),
-    TAB_SETTINGS(SettingsFragment.TAG)
+    TAB_FEED(NewsFeedFragment.getFragmentTag()),
+    TAB_BOOKMARKS(BookmarksFragment.getFragmentTag()),
+    TAB_SETTINGS(SettingsFragment.getFragmentTag())
 }
 
 interface BottomNavigationFragmentFactory {

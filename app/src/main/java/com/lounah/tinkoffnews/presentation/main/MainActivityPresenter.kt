@@ -14,7 +14,7 @@ class MainActivityPresenter @Inject constructor(
         when {
             selectedTabType != null -> mvpView?.selectBottomNavigationItem(navigationItemsHelper.mapType(selectedTabType).idRes)
             startTab != null -> mvpView?.selectBottomNavigationItem(navigationItemsHelper.mapType(startTab).idRes)
-            else -> mvpView?.selectBottomNavigationItem(navigationItemsHelper.mapType(BottomNavigationItemType.TAB_FEED).idRes)
+            else -> mvpView?.selectBottomNavigationItem(navigationItemsHelper.mapType(BottomNavigationItemType.TAB_BOOKMARKS).idRes)
         }
     }
 
