@@ -10,6 +10,7 @@ import javax.inject.Inject
 import com.lounah.tinkoffnews.data.source.local.sql.DatabaseContract
 import android.content.ContentValues
 import com.lounah.tinkoffnews.data.source.local.dao.BaseDao
+import java.util.*
 
 
 class StoryPreviewsDao @Inject constructor(
@@ -19,21 +20,21 @@ class StoryPreviewsDao @Inject constructor(
 ): BaseDao<StoryPreviewEntity> {
 
     private companion object {
-        private val SELECT_QUERY = "SELECT * FROM " + DatabaseContract.StoryPreviewEntityTable.TABLE_NAME
+        private val SELECT_QUERY = "SELECT * FROM ${DatabaseContract.StoryPreviewEntityTable.TABLE_NAME}"
     }
 
     override fun getAll(): Single<List<StoryPreviewEntity>> {
         return Single.create { emitter ->
             val result = selectQueryEngine.executeRawQuery(SELECT_QUERY, sqLiteDatabase, DatabaseContract.StoryPreviewEntityTable.TABLE_NAME,  0)
-            emitter.onSuccess(result)
+            emitter.onSuccess(result.sortedBy { Date(it.date) }.reversed())
         }
     }
 
     fun getAll(limit: Int, offset: Int): Single<List<StoryPreviewEntity>> {
-        val SELECT_QUERY = "SELECT * FROM " + DatabaseContract.StoryPreviewEntityTable.TABLE_NAME + " limit $limit " + "offset $offset"
+        val SELECT_QUERY = "SELECT * FROM ${DatabaseContract.StoryPreviewEntityTable.TABLE_NAME} ORDER BY ${DatabaseContract.StoryPreviewEntityTable.COLUMN_NAME_DATE} DESC limit $limit offset $offset"
         return Single.create { emitter ->
             val result = selectQueryEngine.executeRawQuery(SELECT_QUERY, sqLiteDatabase, DatabaseContract.StoryPreviewEntityTable.TABLE_NAME,  0)
-            emitter.onSuccess(result)
+            emitter.onSuccess(result.sortedBy { Date(it.date) }.reversed())
         }
     }
 

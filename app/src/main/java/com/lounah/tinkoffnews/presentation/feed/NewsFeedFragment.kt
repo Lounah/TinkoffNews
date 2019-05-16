@@ -10,6 +10,8 @@ import com.lounah.tinkoffnews.presentation.newsdetails.StoryDetailsActivity
 import kotlinx.android.synthetic.main.fragment_news_feed.*
 import javax.inject.Inject
 import android.os.Bundle
+import androidx.recyclerview.widget.RecyclerView
+import kotlin.properties.Delegates
 
 
 private const val VIEW_DATA = 0
@@ -17,6 +19,8 @@ private const val VIEW_PROGRESS = 1
 private const val VIEW_ERROR = 2
 
 private const val EXTRA_RECYCLER_VIEW_SCROLL_POSITION = "EXTRA_RECYCLER_VIEW_SCROLL_POSITION"
+
+private const val SCROLLED_ITEMS_TO_SHOW_SCROLL_TO_TOP_FAB_THRESHOLD = 5
 
 class NewsFeedFragment : BaseFragment(), NewsFeedView {
     override val layoutRes = R.layout.fragment_news_feed
@@ -32,12 +36,29 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
     private lateinit var newsFeedAdapter: NewsFeedAdapter
     private lateinit var newsFeedListOnScrollListener: NewsFeedOnScrollListener
 
-    var savedScrollPosition = 0
+    private var savedScrollPosition = 0
+
+    private var scrolledPostsCount: Int by Delegates.observable(0) { _, _, newValue ->
+        if (newValue == 0) {
+            fabNewsFeedScrollToTop.hide()
+        } else {
+            if (newValue > SCROLLED_ITEMS_TO_SHOW_SCROLL_TO_TOP_FAB_THRESHOLD) {
+                fabNewsFeedScrollToTop.show()
+            }
+        }
+    }
+
 
     override fun initUI() {
         setUpToolbar()
         setUpRecyclerView()
         setUpSwipeRefreshLayout()
+        fabNewsFeedScrollToTop.setOnClickListener {
+            recyclerViewNewsFeed?.post {
+                recyclerViewNewsFeed.scrollToPosition(0)
+                appBarLayoutNewsFeed.setExpanded(true, true)
+            }
+        }
         presenter.attachView(this)
         presenter.onCreate()
     }
@@ -131,13 +152,21 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             layoutManager = LinearLayoutManager(this@NewsFeedFragment.context).apply {
                 initialPrefetchItemCount = 3
                 isItemPrefetchEnabled = true
-                setHasFixedSize(true)
             }
-            setHasFixedSize(true)
             newsFeedListOnScrollListener = object : NewsFeedOnScrollListener(newsFeedAdapter) {
                 override fun onLoadBefore(before: StoryViewObject?) {
-                    presenter.fetchNewsFeed(forceRefresh = false)
+                    presenter.fetchNewsFeed(forceRefresh = false, initialLoading = false)
                     // TODO: additional logic
+                }
+
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    savedScrollPosition = (recyclerViewNewsFeed.layoutManager as LinearLayoutManager)
+                            .findFirstVisibleItemPosition()
+                    scrolledPostsCount = savedScrollPosition
+                    if (recyclerView.canScrollVertically(-1).not()) {
+                        fabNewsFeedScrollToTop.hide()
+                    }
                 }
 
             }

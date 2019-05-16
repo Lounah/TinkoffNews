@@ -7,6 +7,7 @@
     tools:context=".presentation.main.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayoutNewsFeed"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height">
 
@@ -50,13 +51,17 @@
     </ViewFlipper>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNewsFeedScrollToTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        tools:visibility="visible"
         android:visibility="gone"
         app:fabSize="mini"
+        app:backgroundTint="@color/white"
+        app:elevation="8dp"
         app:layout_anchor="@id/viewFlipperNewsFeed"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_arrow_up"/>
+        app:layout_anchorGravity="bottom|center_horizontal"
+        app:srcCompat="@drawable/ic_arrow_upward_black_24dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

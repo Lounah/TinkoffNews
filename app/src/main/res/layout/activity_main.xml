@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"
-        android:background="@color/white_alpha_05"
+        android:background="@color/white"
         app:elevation="8dp"
         app:itemIconSize="24dp"
         app:itemIconTint="@color/color_bottom_navigation_icon"

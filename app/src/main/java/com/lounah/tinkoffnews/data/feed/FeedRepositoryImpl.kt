@@ -10,6 +10,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class FeedRepositoryImpl @Inject constructor(
@@ -44,7 +45,7 @@ class FeedRepositoryImpl @Inject constructor(
                         inMemoryCachedStoryPreviews.addAll(it.filter { storyPreviewEntity ->
                             inMemoryCachedStoryPreviews.contains(storyPreviewEntity).not()
                         })
-                        storyPreviewsDao.addAll(it)
+                        storyPreviewsDao.addAll(it.sortedBy { Date(it.date) }).subscribe()
                     }
                     .map { it.subList(0, PAGING_PAGE_SIZE) }
                     .onErrorResumeNext {
