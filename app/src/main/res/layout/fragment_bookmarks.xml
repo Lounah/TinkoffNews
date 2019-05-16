@@ -18,7 +18,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <ViewFlipper
         android:id="@+id/viewFlipperBookmarks"
         android:layout_width="match_parent"

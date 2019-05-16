@@ -1,5 +1,6 @@
 package com.lounah.tinkoffnews.presentation.newsdetails
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -105,13 +106,15 @@ class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
         presenter.onCreate(storyId)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun initContentWebView() {
         webView.settings.apply {
             cacheMode = WebSettings.LOAD_NO_CACHE
             setAppCacheEnabled(false)
             blockNetworkImage = true
             loadsImagesAutomatically = false
-            blockNetworkLoads = true
+            blockNetworkLoads = false
+            javaScriptEnabled = true
             setGeolocationEnabled(false)
             setNeedInitialFocus(false)
         }
