@@ -126,6 +126,10 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         newsFeedAdapter.addItems(feed)
     }
 
+    override fun onItemBookmarkedStatusChanged(item: StoryViewObject) {
+        newsFeedAdapter.updateItem(item)
+    }
+
     override fun hideSwipeRefresh() {
         swipeRefreshNewsFeed.isRefreshing = false
     }
@@ -152,8 +156,8 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
                 }
             }
         }, object : StorySummaryViewHolder.OnBookmarkClickedCallback {
-            override fun onBookmarkClicked(storyId: Int) {
-
+            override fun onBookmarkClicked(story: StoryViewObject) {
+                presenter.applyBookmarkClick(story)
             }
         })
         recyclerViewNewsFeed.apply {

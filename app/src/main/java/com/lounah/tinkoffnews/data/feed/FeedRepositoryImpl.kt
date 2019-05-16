@@ -21,37 +21,32 @@ class FeedRepositoryImpl @Inject constructor(
         private const val PAGING_PAGE_SIZE = 15
     }
 
-    private val inMemoryCachedStoryPreviews = mutableListOf<StoryPreviewEntity>()
-
     private var page: Int = 0
 
     override fun fetchNewsFeed(forceRefresh: Boolean): Single<List<StoryPreviewEntity>> {
-        return if (inMemoryCachedStoryPreviews.isNotEmpty()) {
-            if (forceRefresh) {
+        return when {
+            forceRefresh -> {
                 page = 1
-                Single.just(inMemoryCachedStoryPreviews.take(PAGING_PAGE_SIZE))
-            } else {
-                val startIndex = 0
-                val endIndex = (page + 1) * PAGING_PAGE_SIZE
-                page++
-                Single.just(inMemoryCachedStoryPreviews.subList(startIndex, endIndex).toList())
+                storyPreviewsDao.getAll(PAGING_PAGE_SIZE, PAGING_PAGE_SIZE)
             }
-        } else {
-            return fetchNewsFeedFromApi()
-                    .map { it.map { StoryPreviewEntity(it.id, it.name, it.text, isBookmarked = false, date = it.publicationDate.milliseconds) } }
-                    .doOnSuccess { previews ->
-                        storyPreviewsDao.addAll(previews.sortedBy { Date(it.date) })
-                                .async()
-                                .doOnSubscribe {
-                                    inMemoryCachedStoryPreviews.addAll(previews.filter { storyPreviewEntity ->
-                                        inMemoryCachedStoryPreviews.contains(storyPreviewEntity).not()
-                                    })
-                                }
-                                .subscribe()
-                    }
-                    .map { it.subList(0, PAGING_PAGE_SIZE) }
+            page != 0 -> {
+                val limit = (page + 1) * PAGING_PAGE_SIZE
+                page++
+                storyPreviewsDao.getAll(limit, offset = 0)
+            }
+            else -> storyPreviewsDao.getAll(PAGING_PAGE_SIZE, 0)
+                    .doOnSuccess { page++ }
+                    // can throw empty result set exception
                     .onErrorResumeNext {
-                        storyPreviewsDao.getAll(PAGING_PAGE_SIZE, page++ * PAGING_PAGE_SIZE)
+                        fetchNewsFeedFromApi()
+                                .map { it.map { StoryPreviewEntity(it.id, it.name, it.text, isBookmarked = false, date = it.publicationDate.milliseconds) } }
+                                .doOnSuccess { previews ->
+                                    storyPreviewsDao.addAll(previews.sortedBy { Date(it.date) })
+                                            .async()
+                                            .subscribe()
+                                    page++
+                                }
+                                .map { it.subList(0, PAGING_PAGE_SIZE) }
                     }
         }
     }
@@ -59,15 +54,11 @@ class FeedRepositoryImpl @Inject constructor(
     override fun fetchStoryById(id: Int): Single<StoryDetails> = api.fetchStoryById(id).map { it.payload }
 
     override fun markAsBookmarked(storyId: Int): Completable {
-        return Completable.fromAction {
-
-        }
+        return storyPreviewsDao.markAsBookmarked(storyId)
     }
 
     override fun removeFromBookmarks(storyId: Int): Completable {
-        return Completable.fromAction {
-
-        }
+        return storyPreviewsDao.removeFromBookmarks(storyId)
     }
 
     private fun fetchNewsFeedFromApi(): Single<List<StoryPreview>> = api.fetchNews().map { it.payload }

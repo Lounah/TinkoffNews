@@ -1,6 +1,5 @@
 package com.lounah.tinkoffnews.presentation.feed.list
 
-import android.text.Html
 import android.view.ViewGroup
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.common.recycler.BaseViewHolder
@@ -16,7 +15,7 @@ class StorySummaryViewHolder(
 ) : BaseViewHolder<StoryViewObject>(parent, layoutRes) {
 
     interface OnBookmarkClickedCallback {
-        fun onBookmarkClicked(storyId: Int)
+        fun onBookmarkClicked(story: StoryViewObject)
     }
 
     override fun bind(obj: StoryViewObject?) {
@@ -36,7 +35,7 @@ class StorySummaryViewHolder(
                         buttonStorySummaryAddToBookmarks.setImageDrawable(context.getDrawableCompat(R.drawable.ic_bookmark_filled))
                     }
 
-                    onBookMarkClicked.onBookmarkClicked(obj.id)
+                    onBookMarkClicked.onBookmarkClicked(obj)
                 }
             }
         }

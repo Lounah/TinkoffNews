@@ -9,5 +9,6 @@ interface NewsFeedView : MvpView {
     fun showFullscreenLoading()
     fun showPagingLoading()
     fun hideSwipeRefresh()
+    fun onItemBookmarkedStatusChanged(item: StoryViewObject)
     fun showData(feed: List<StoryViewObject>)
 }

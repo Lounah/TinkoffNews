@@ -64,7 +64,7 @@ class BookmarksFragment : BaseFragment(), BookmarksFragmentView {
                 }
             }
         }, object : StorySummaryViewHolder.OnBookmarkClickedCallback {
-            override fun onBookmarkClicked(storyId: Int) {
+            override fun onBookmarkClicked(story: StoryViewObject) {
 
             }
         })

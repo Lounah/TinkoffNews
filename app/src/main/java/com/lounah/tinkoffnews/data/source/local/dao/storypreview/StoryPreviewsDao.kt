@@ -9,6 +9,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 import com.lounah.tinkoffnews.data.source.local.sql.DatabaseContract
 import android.content.ContentValues
+import androidx.room.EmptyResultSetException
 import com.lounah.tinkoffnews.data.source.local.dao.BaseDao
 import java.util.*
 
@@ -34,7 +35,11 @@ class StoryPreviewsDao @Inject constructor(
         val SELECT_QUERY = "SELECT * FROM ${DatabaseContract.StoryPreviewEntityTable.TABLE_NAME} ORDER BY ${DatabaseContract.StoryPreviewEntityTable.COLUMN_NAME_DATE} DESC limit $limit offset $offset"
         return Single.create { emitter ->
             val result = selectQueryEngine.executeRawQuery(SELECT_QUERY, sqLiteDatabase, DatabaseContract.StoryPreviewEntityTable.TABLE_NAME,  0)
-            emitter.onSuccess(result.sortedBy { Date(it.date) }.reversed())
+            if (result.isEmpty()) {
+                emitter.onError(Throwable("Empty result set exception"))
+            } else {
+                emitter.onSuccess(result.sortedBy { Date(it.date) }.reversed())
+            }
         }
     }
 
@@ -76,6 +81,24 @@ class StoryPreviewsDao @Inject constructor(
                         SQLiteDatabase.CONFLICT_REPLACE)
 
             }
+        }
+    }
+
+    fun markAsBookmarked(itemId: Int): Completable {
+        return Completable.fromAction {
+            val contentValues = ContentValues().apply {
+                put(DatabaseContract.StoryPreviewEntityTable.COLUMN_NAME_IS_BOOKMARKED, true)
+            }
+            sqLiteDatabase.update(DatabaseContract.StoryPreviewEntityTable.TABLE_NAME, contentValues, "id=$itemId", null)
+        }
+    }
+
+    fun removeFromBookmarks(itemId: Int): Completable {
+        return Completable.fromAction {
+            val contentValues = ContentValues().apply {
+                put(DatabaseContract.StoryPreviewEntityTable.COLUMN_NAME_IS_BOOKMARKED, false)
+            }
+            sqLiteDatabase.update(DatabaseContract.StoryPreviewEntityTable.TABLE_NAME, contentValues, "id=$itemId", null)
         }
     }
 }
