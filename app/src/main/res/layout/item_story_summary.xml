@@ -3,47 +3,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:background="?selectableItemBackgroundBorderless"
+    android:layout_marginBottom="12dp"
+    android:layout_marginTop="12dp"
+    android:background="?selectableItemBackground"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/textViewItemStoryTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_padding"
+        android:layout_marginEnd="@dimen/default_padding"
         android:lineSpacingExtra="4dp"
         android:textColor="@color/black"
         android:textSize="17sp"
         android:textStyle="bold"
         tools:text="Тинькофф Банк начинает сотрудничество с кафедрой математических и компьютерных методов анализа мехмата МГУ"/>
 
-    <com.lounah.tinkoffnews.presentation.widget.ResponsiveImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:background="?selectableItemBackgroundBorderless"
-        android:src="@drawable/messenger_icons_bookmark_32"/>
-
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="8dp">
 
         <ImageView
             android:layout_width="13dp"
             android:layout_height="13dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/default_padding"
             android:src="@drawable/fb_ic_clock_outline_16"
             android:tint="@color/grayLight"/>
 
         <TextView
             android:id="@+id/textViewItemStoryDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="36dp"
             android:textColor="@color/grayLight"
             android:textSize="12sp"
             tools:text="23 December 2019"/>
+
+        <com.lounah.tinkoffnews.presentation.widget.ResponsiveImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/messenger_icons_bookmark_32"/>
+
 
     </FrameLayout>
 </LinearLayout>

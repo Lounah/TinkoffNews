@@ -15,7 +15,7 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
 
     private var isLoading: Boolean = false
 
-    override fun getItemId(position: Int): Long {
+    override fun getItemViewType(position: Int): Int {
         return if (position == LOADING_POSITION && isLoading) {
             NewsFeedViewHolders.LOADING.type
         } else NewsFeedViewHolders.FEED_ITEM.type
@@ -23,14 +23,14 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<StoryViewObject> {
         return when(viewType) {
-            NewsFeedViewHolders.FEED_ITEM.type.toInt() -> {
+            NewsFeedViewHolders.FEED_ITEM.type -> {
                 val viewHolder = StorySummaryViewHolder(parent)
                 viewHolder.itemView.setOnClickListener {
                     onStoryClickedCallback.onStoryClicked(items[viewHolder.adapterPosition])
                 }
                 viewHolder
             }
-            NewsFeedViewHolders.LOADING.type.toInt() -> LoadingViewHolder(parent)
+            NewsFeedViewHolders.LOADING.type -> LoadingViewHolder(parent)
             else -> LoadingViewHolder(parent)
         }
     }
@@ -39,8 +39,10 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
         val viewType = getItemViewType(position)
 
         when (viewType) {
-            NewsFeedViewHolders.LOADING.type.toInt() -> {}
-            NewsFeedViewHolders.FEED_ITEM.type.toInt() -> {
+            NewsFeedViewHolders.LOADING.type -> {
+                (holder as LoadingViewHolder).bind(null)
+            }
+            NewsFeedViewHolders.FEED_ITEM.type -> {
                 (holder as StorySummaryViewHolder).bind(items[position])
             }
         }
@@ -55,8 +57,8 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
 
     fun hideLoading() {
         if (isLoading) {
-            notifyItemRemoved(LOADING_POSITION)
             isLoading = false
+            notifyItemRemoved(LOADING_POSITION)
         }
     }
 

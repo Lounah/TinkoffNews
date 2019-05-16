@@ -18,7 +18,7 @@ import io.reactivex.functions.Consumer
  */
 abstract class BasePresenter<T : MvpView> : Presenter<T> {
 
-    private lateinit var commonDisposable: CompositeDisposable
+    lateinit var commonDisposable: CompositeDisposable
 
     private var _mvpView: T? = null
     val mvpView: T

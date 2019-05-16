@@ -4,7 +4,7 @@ import com.lounah.tinkoffnews.presentation.common.arch.MvpView
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 
 interface NewsFeedView : MvpView {
-    fun showErrorToast(msg: String)
+    fun showErrorToast()
     fun showFullscreenError()
     fun showFullscreenLoading()
     fun showPagingLoading()

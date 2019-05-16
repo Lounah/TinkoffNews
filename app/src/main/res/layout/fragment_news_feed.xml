@@ -36,9 +36,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 tools:listitem="@layout/item_story_summary"
-                android:paddingStart="@dimen/default_padding"
                 android:paddingTop="@dimen/default_small_padding"
-                android:paddingEnd="@dimen/default_padding"
                 android:paddingBottom="@dimen/default_padding"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

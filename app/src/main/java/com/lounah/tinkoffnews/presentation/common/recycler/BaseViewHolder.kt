@@ -12,5 +12,5 @@ abstract class BaseViewHolder<T>(
 
     override val containerView = itemView
 
-    abstract fun bind(obj: T)
+    abstract fun bind(obj: T?)
 }

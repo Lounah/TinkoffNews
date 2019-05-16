@@ -8,6 +8,7 @@ import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedAdapter
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedOnScrollListener
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import kotlinx.android.synthetic.main.fragment_news_feed.*
+import kotlinx.android.synthetic.main.view_state_error.*
 import javax.inject.Inject
 
 private const val VIEW_DATA = 0
@@ -36,8 +37,8 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         presenter.detachView()
     }
 
-    override fun showErrorToast(msg: String) {
-        showToast(msg, gravity = null)
+    override fun showErrorToast() {
+        showToast(R.string.error_loading_data, gravity = null)
     }
 
     override fun showFullscreenError() {
@@ -45,6 +46,9 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             viewFlipperNewsFeed.displayedChild = VIEW_ERROR
         }
         toolbarNewsFeed.setShouldShowElevation(true)
+        errorViewNewsFeed.setErrorButton(R.string.error_state_default_retry) {
+            presenter.onRetryClicked()
+        }
     }
 
     override fun showFullscreenLoading() {
@@ -54,14 +58,14 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
     }
 
     override fun showPagingLoading() {
-        newsFeedAdapter.showLoading()
+//        newsFeedAdapter.showLoading()
     }
 
     override fun showData(feed: List<StoryViewObject>) {
         if (viewFlipperNewsFeed.displayedChild != VIEW_DATA) {
             viewFlipperNewsFeed.displayedChild = VIEW_DATA
         }
-        newsFeedAdapter.hideLoading()
+//        newsFeedAdapter.hideLoading()
         newsFeedAdapter.addItems(feed)
     }
 
@@ -92,7 +96,7 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             }
             newsFeedListOnScrollListener = object : NewsFeedOnScrollListener(newsFeedAdapter) {
                 override fun onLoadBefore(before: StoryViewObject?) {
-                    newsFeedAdapter.showLoading()
+//                    newsFeedAdapter.showLoading()
                     // TODO: additional logic
                 }
 
@@ -108,7 +112,7 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
 
     private fun setUpSwipeRefreshLayout() {
         swipeRefreshNewsFeed.setOnRefreshListener {
-            // TODO: impl this
+            presenter.onPullToRefreshTriggered()
         }
     }
 }

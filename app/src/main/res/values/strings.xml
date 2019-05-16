@@ -7,4 +7,5 @@
     <string name="bottom_navigation_feed">Новости</string>
     <string name="bottom_navigation_bookmarks">Закладки</string>
     <string name="bottom_navigation_settings">Настройки</string>
+    <string name="error_loading_data">Не удалось обновить данные</string>
 </resources>

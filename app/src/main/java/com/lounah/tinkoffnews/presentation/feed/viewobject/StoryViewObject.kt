@@ -1,10 +1,8 @@
 package com.lounah.tinkoffnews.presentation.feed.viewobject
 
-import java.util.*
-
 data class StoryViewObject(
+    val id: Int,
     val title: String,
-    val date: Date
-) {
-
-}
+    val date: String,
+    var isBookmarked: Boolean = false
+)

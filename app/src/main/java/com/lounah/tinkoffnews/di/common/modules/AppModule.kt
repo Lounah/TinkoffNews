@@ -1,6 +1,9 @@
 package com.lounah.tinkoffnews.di.common.modules
 
 import android.content.Context
+import com.lounah.tinkoffnews.domain.feed.NewsFeedInteractor
+import com.lounah.tinkoffnews.domain.feed.NewsFeedMapper
+import com.lounah.tinkoffnews.domain.feed.NewsFeedRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -8,11 +11,11 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
-//    @Provides
-//    @Singleton
-//    fun filesTypeHelper(@ApplicationContext context: Context): FilesTypeHelper {
-//        return FilesTypeHelper(context)
-//    }
+    @Provides
+    @Singleton
+    fun newsFeedInteractor(newsFeedRepository: NewsFeedRepository, mapper: NewsFeedMapper): NewsFeedInteractor {
+        return NewsFeedInteractor(newsFeedRepository, mapper)
+    }
 //
 //    @Provides
 //    @Singleton
