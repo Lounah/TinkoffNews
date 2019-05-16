@@ -4,6 +4,7 @@ import android.text.Html
 import android.view.ViewGroup
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.common.recycler.BaseViewHolder
+import com.lounah.tinkoffnews.presentation.extensions.fromHtml
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import kotlinx.android.synthetic.main.item_story_summary.*
 
@@ -15,7 +16,7 @@ class StorySummaryViewHolder(
     override fun bind(obj: StoryViewObject?) {
         obj?.let {
             textViewItemStoryDate.text = obj.date
-            textViewItemStoryTitle.text = Html.fromHtml(obj.title)
+            textViewItemStoryTitle.text = obj.title.fromHtml()
         }
     }
 }

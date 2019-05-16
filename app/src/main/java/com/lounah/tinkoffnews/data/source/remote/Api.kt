@@ -5,12 +5,12 @@ import com.lounah.tinkoffnews.data.model.StoryDetails
 import com.lounah.tinkoffnews.data.model.StoryPreview
 import io.reactivex.Single
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface Api {
     @GET("v1/news")
     fun fetchNews(): Single<ApiResponse<List<StoryPreview>>>
 
-    @GET("v1/news/{id}")
-    fun fetchStoryById(@Path("id") id: Int): Single<ApiResponse<StoryDetails>>
+    @GET("v1/news_content/")
+    fun fetchStoryById(@Query("id") id: Int): Single<ApiResponse<StoryDetails>>
 }

@@ -7,6 +7,7 @@ import com.lounah.tinkoffnews.presentation.common.BaseFragment
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedAdapter
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedOnScrollListener
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
+import com.lounah.tinkoffnews.presentation.newsdetails.StoryDetailsActivity
 import kotlinx.android.synthetic.main.fragment_news_feed.*
 import javax.inject.Inject
 
@@ -88,7 +89,9 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
     private fun setUpRecyclerView() {
         newsFeedAdapter = NewsFeedAdapter(object : NewsFeedAdapter.OnStoryClickedCallback {
             override fun onStoryClicked(story: StoryViewObject) {
-
+                context?.let {
+                    startActivity(StoryDetailsActivity.createStartIntent(it, story.id))
+                }
             }
         })
         recyclerViewNewsFeed.apply {

@@ -1,6 +1,8 @@
 package com.lounah.tinkoffnews.di.common.modules
 
 import android.content.Context
+import com.lounah.tinkoffnews.data.prefs.FontSharedPreferences
+import com.lounah.tinkoffnews.di.common.ApplicationContext
 import com.lounah.tinkoffnews.domain.feed.NewsFeedInteractor
 import com.lounah.tinkoffnews.domain.feed.NewsFeedMapper
 import com.lounah.tinkoffnews.domain.feed.NewsFeedRepository
@@ -15,6 +17,12 @@ class AppModule {
     @Singleton
     fun newsFeedInteractor(newsFeedRepository: NewsFeedRepository, mapper: NewsFeedMapper): NewsFeedInteractor {
         return NewsFeedInteractor(newsFeedRepository, mapper)
+    }
+
+    @Provides
+    @Singleton
+    fun fontSharedPrefs(@ApplicationContext context: Context): FontSharedPreferences {
+        return FontSharedPreferences(context)
     }
 //
 //    @Provides
