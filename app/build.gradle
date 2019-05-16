@@ -11,9 +11,11 @@ android {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
+        vectorDrawables.useSupportLibrary = true
         versionName "0.0.1 от " + getDate()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "DB_NAME", "\"tinkoff_news.db\"")
+        buildConfigField("String", "BASE_URL", "\"https://api.tinkoff.ru/\"")
     }
 
     signingConfigs {
