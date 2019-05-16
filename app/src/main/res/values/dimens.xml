@@ -17,4 +17,8 @@
     <dimen name="text_caption">12sp</dimen>
     <dimen name="text_caption_small">10sp</dimen>
 
+    <dimen name="text_content_normal">15sp</dimen>
+    <dimen name="text_content_middle">19sp</dimen>
+    <dimen name="text_content_large">22sp</dimen>
+
 </resources>

@@ -11,39 +11,42 @@ class NewsFeedPresenter @Inject constructor(
 ) : BasePresenter<NewsFeedView>() {
 
     fun onCreate() {
-        fetchNewsFeed(forceRefresh = true)
+        fetchNewsFeed(forceRefresh = false, initialLoading = true)
     }
 
-    fun fetchNewsFeed(forceRefresh: Boolean) {
+    fun fetchNewsFeed(forceRefresh: Boolean, initialLoading: Boolean) {
         commonDisposable.add(newsFeedInteractor.fetchNewsFeed(forceRefresh)
                 .async()
                 .doOnSubscribe {
-                    if (forceRefresh) {
-                        mvpView.showFullscreenLoading()
+                    if (initialLoading) {
+                        mvpView?.showFullscreenLoading()
                     } else {
-                        mvpView.showPagingLoading()
+                        mvpView?.showPagingLoading()
                     }
                 }
                 .doFinally {
-                    mvpView.hideSwipeRefresh()
+                    mvpView?.hideSwipeRefresh()
                 }.subscribe({
-                    mvpView.showData(it.take(20))
+                    if (it.isEmpty()) {
+                        mvpView?.showFullscreenError()
+                    } else
+                        mvpView?.showData(it)
 
                 }, {
                     Timber.e(it)
-                    if (forceRefresh) {
-                        mvpView.showFullscreenError()
+                    if (initialLoading) {
+                        mvpView?.showFullscreenError()
                     } else {
-                        mvpView.showErrorToast()
+                        mvpView?.showErrorToast()
                     }
                 }))
     }
 
     fun onRetryClicked() {
-        fetchNewsFeed(forceRefresh = true)
+        fetchNewsFeed(forceRefresh = true, initialLoading = true)
     }
 
     fun onPullToRefreshTriggered() {
-        fetchNewsFeed(forceRefresh = false)
+        fetchNewsFeed(forceRefresh = false, initialLoading = false)
     }
 }

@@ -9,10 +9,8 @@ data class StoryDetails(
     val lastModificationDate: ResponseDate,
     val content: String
 ) {
-    private val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-
     fun getShortFormattedDate(): String {
-        return dateFormat.format(Date(creationDate.milliseconds))
+        return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date(creationDate.milliseconds))
     }
 }
 

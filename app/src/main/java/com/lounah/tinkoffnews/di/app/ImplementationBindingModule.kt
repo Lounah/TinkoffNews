@@ -1,6 +1,8 @@
 package com.lounah.tinkoffnews.di.app
 
+import com.lounah.tinkoffnews.data.bookmarks.BookmarksRepositoryImpl
 import com.lounah.tinkoffnews.data.feed.FeedRepositoryImpl
+import com.lounah.tinkoffnews.domain.bookmarks.BookmarksRepository
 import com.lounah.tinkoffnews.domain.feed.NewsFeedRepository
 import dagger.Binds
 import dagger.Module
@@ -11,4 +13,8 @@ abstract class ImplementationBindingModule {
     @Singleton
     @Binds
     abstract fun bindNewsFeedRepository(impl: FeedRepositoryImpl): NewsFeedRepository
+
+    @Singleton
+    @Binds
+    abstract fun bookmarksRepository(impl: BookmarksRepositoryImpl): BookmarksRepository
 }

@@ -21,9 +21,9 @@ abstract class BasePresenter<T : MvpView> : Presenter<T> {
     lateinit var commonDisposable: CompositeDisposable
 
     private var _mvpView: T? = null
-    val mvpView: T
+    val mvpView: T?
         get() {
-            return _mvpView ?: throw MvpViewNotAttachedException()
+            return _mvpView
         }
 
     override fun attachView(mvpView: T) {
