@@ -8,4 +8,8 @@
     <string name="bottom_navigation_bookmarks">Закладки</string>
     <string name="bottom_navigation_settings">Настройки</string>
     <string name="error_loading_data">Не удалось обновить данные</string>
+    <string name="about">О приложении</string>
+    <string name="licenses">Лицензии открытого ПО</string>
+    <string name="send_feedback">Оставить отзыв</string>
+    <string name="settings">Настройки</string>
 </resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.lounah.tinkoffnews.presentation.widget.SimpleToolbar
+        android:id="@+id/toolbarSettings"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"/>
+
+
+    <TextView
+        android:id="@+id/textViewSettingsAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/default_padding"
+        android:background="?selectableItemBackground"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="@string/about"/>
+
+    <TextView
+        android:id="@+id/textViewLicenses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/default_padding"
+        android:background="?selectableItemBackground"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="@string/licenses"/>
+
+    <TextView
+        android:id="@+id/textViewSendFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/default_padding"
+        android:background="?selectableItemBackground"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="@string/send_feedback"/>
+
+</LinearLayout>

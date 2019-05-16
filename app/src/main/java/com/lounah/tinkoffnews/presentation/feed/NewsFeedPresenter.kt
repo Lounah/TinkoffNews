@@ -14,27 +14,27 @@ class NewsFeedPresenter @Inject constructor(
         fetchNewsFeed(forceRefresh = true)
     }
 
-    fun fetchNewsFeed(forceRefresh: Boolean) {
+    private fun fetchNewsFeed(forceRefresh: Boolean) {
         commonDisposable.add(newsFeedInteractor.fetchNewsFeed(forceRefresh)
                 .async()
                 .doOnSubscribe {
                     if (forceRefresh) {
-                        mvpView.showFullscreenLoading()
+                        mvpView?.showFullscreenLoading()
                     } else {
-                        mvpView.showPagingLoading()
+                        mvpView?.showPagingLoading()
                     }
                 }
                 .doFinally {
-                    mvpView.hideSwipeRefresh()
+                    mvpView?.hideSwipeRefresh()
                 }.subscribe({
-                    mvpView.showData(it.take(20))
+                    mvpView?.showData(it.take(20))
 
                 }, {
                     Timber.e(it)
                     if (forceRefresh) {
-                        mvpView.showFullscreenError()
+                        mvpView?.showFullscreenError()
                     } else {
-                        mvpView.showErrorToast()
+                        mvpView?.showErrorToast()
                     }
                 }))
     }

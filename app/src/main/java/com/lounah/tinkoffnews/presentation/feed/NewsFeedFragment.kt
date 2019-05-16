@@ -8,7 +8,6 @@ import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedAdapter
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedOnScrollListener
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import kotlinx.android.synthetic.main.fragment_news_feed.*
-import kotlinx.android.synthetic.main.view_state_error.*
 import javax.inject.Inject
 
 private const val VIEW_DATA = 0
@@ -18,6 +17,10 @@ private const val VIEW_ERROR = 2
 class NewsFeedFragment : BaseFragment(), NewsFeedView {
     override val TAG = "news_feed"
     override val layoutRes = R.layout.fragment_news_feed
+
+    companion object {
+        fun newInstance(): NewsFeedFragment = NewsFeedFragment()
+    }
 
     @Inject lateinit var presenter: NewsFeedPresenter
 
