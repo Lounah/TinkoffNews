@@ -1,7 +1,6 @@
 package com.lounah.tinkoffnews.presentation.feed
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.common.BaseFragment
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedAdapter
@@ -10,10 +9,14 @@ import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import com.lounah.tinkoffnews.presentation.newsdetails.StoryDetailsActivity
 import kotlinx.android.synthetic.main.fragment_news_feed.*
 import javax.inject.Inject
+import android.os.Bundle
+
 
 private const val VIEW_DATA = 0
 private const val VIEW_PROGRESS = 1
 private const val VIEW_ERROR = 2
+
+private const val EXTRA_RECYCLER_VIEW_SCROLL_POSITION = "EXTRA_RECYCLER_VIEW_SCROLL_POSITION"
 
 class NewsFeedFragment : BaseFragment(), NewsFeedView {
     override val layoutRes = R.layout.fragment_news_feed
@@ -23,10 +26,13 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         fun newInstance(): NewsFeedFragment = NewsFeedFragment()
     }
 
-    @Inject lateinit var presenter: NewsFeedPresenter
+    @Inject
+    lateinit var presenter: NewsFeedPresenter
 
     private lateinit var newsFeedAdapter: NewsFeedAdapter
     private lateinit var newsFeedListOnScrollListener: NewsFeedOnScrollListener
+
+    var savedScrollPosition = 0
 
     override fun initUI() {
         setUpToolbar()
@@ -39,6 +45,30 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
     override fun onDestroyView() {
         super.onDestroyView()
         presenter.detachView()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        savedScrollPosition = (recyclerViewNewsFeed.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        recyclerViewNewsFeed.postDelayed({
+            (recyclerViewNewsFeed.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(savedScrollPosition, 0)
+        }, 100)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        recyclerViewNewsFeed?.let {
+            outState.putInt(EXTRA_RECYCLER_VIEW_SCROLL_POSITION, (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition())
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedScrollPosition = savedInstanceState?.getInt(EXTRA_RECYCLER_VIEW_SCROLL_POSITION) ?: savedScrollPosition
     }
 
     override fun showErrorToast() {
@@ -61,14 +91,17 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
     }
 
     override fun showPagingLoading() {
-//        newsFeedAdapter.showLoading()
+        recyclerViewNewsFeed.post {
+            newsFeedAdapter.showLoading()
+        }
     }
 
     override fun showData(feed: List<StoryViewObject>) {
         if (viewFlipperNewsFeed.displayedChild != VIEW_DATA) {
             viewFlipperNewsFeed.displayedChild = VIEW_DATA
         }
-//        newsFeedAdapter.hideLoading()
+        newsFeedListOnScrollListener.onLoadedBefore()
+        newsFeedListOnScrollListener.releaseLoadingBeforeState()
         newsFeedAdapter.addItems(feed)
     }
 
@@ -98,17 +131,15 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             layoutManager = LinearLayoutManager(this@NewsFeedFragment.context).apply {
                 initialPrefetchItemCount = 3
                 isItemPrefetchEnabled = true
+                setHasFixedSize(true)
             }
+            setHasFixedSize(true)
             newsFeedListOnScrollListener = object : NewsFeedOnScrollListener(newsFeedAdapter) {
                 override fun onLoadBefore(before: StoryViewObject?) {
-//                    newsFeedAdapter.showLoading()
+                    presenter.fetchNewsFeed(forceRefresh = false)
                     // TODO: additional logic
                 }
 
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-
-                }
             }
             addOnScrollListener(newsFeedListOnScrollListener)
         }

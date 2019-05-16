@@ -4,8 +4,7 @@ import android.view.ViewGroup
 import com.lounah.tinkoffnews.presentation.common.recycler.BaseAdapter
 import com.lounah.tinkoffnews.presentation.common.recycler.BaseViewHolder
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
-
-private const val LOADING_POSITION = 0
+import timber.log.Timber
 
 class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback) : BaseAdapter<StoryViewObject>() {
 
@@ -16,7 +15,7 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
     private var isLoading: Boolean = false
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == LOADING_POSITION && isLoading) {
+        return if (position == getLoadingPosition() && isLoading) {
             NewsFeedViewHolders.LOADING.type
         } else NewsFeedViewHolders.FEED_ITEM.type
     }
@@ -40,7 +39,7 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
 
         when (viewType) {
             NewsFeedViewHolders.LOADING.type -> {
-                (holder as LoadingViewHolder).bind(null)
+                Timber.i("loading")
             }
             NewsFeedViewHolders.FEED_ITEM.type -> {
                 (holder as StorySummaryViewHolder).bind(items[position])
@@ -51,14 +50,14 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
     fun showLoading() {
         if (!isLoading) {
             isLoading = true
-            notifyItemInserted(LOADING_POSITION)
+//            notifyItemInserted(getLoadingPosition())
         }
     }
 
     fun hideLoading() {
         if (isLoading) {
             isLoading = false
-            notifyItemRemoved(LOADING_POSITION)
+//            notifyItemRemoved(getLoadingPosition())
         }
     }
 
@@ -72,5 +71,7 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
     }
 
     fun getEarliestItem() = items.lastOrNull()
+
+    private fun getLoadingPosition() = items.size
 
 }

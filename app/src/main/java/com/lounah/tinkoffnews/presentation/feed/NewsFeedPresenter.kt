@@ -11,10 +11,10 @@ class NewsFeedPresenter @Inject constructor(
 ) : BasePresenter<NewsFeedView>() {
 
     fun onCreate() {
-        fetchNewsFeed(forceRefresh = true)
+        fetchNewsFeed(forceRefresh = false)
     }
 
-    private fun fetchNewsFeed(forceRefresh: Boolean) {
+    fun fetchNewsFeed(forceRefresh: Boolean) {
         commonDisposable.add(newsFeedInteractor.fetchNewsFeed(forceRefresh)
                 .async()
                 .doOnSubscribe {
@@ -27,7 +27,7 @@ class NewsFeedPresenter @Inject constructor(
                 .doFinally {
                     mvpView?.hideSwipeRefresh()
                 }.subscribe({
-                    mvpView?.showData(it.take(20))
+                    mvpView?.showData(it)
 
                 }, {
                     Timber.e(it)

@@ -132,11 +132,4 @@ class MainActivity : BaseActivity(), MainMvpView {
             true
         }
     }
-
-//
-//    private fun setUpMainFragment() {
-//        supportFragmentManager.beginTransaction()
-//                .add(R.id.containerMain, NewsFeedFragment())
-//                .commit()
-//    }
 }

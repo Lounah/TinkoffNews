@@ -65,7 +65,7 @@ class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
         if (viewFlipperStoryDetails.displayedChild != VIEW_DATA) {
             viewFlipperStoryDetails.displayedChild = VIEW_DATA
         }
-        textViewStoryDetailsTitle.text = content.title.text
+        textViewStoryDetailsTitle.text = content.title.text.fromHtml()
         textViewStoryDate.text = content.getShortFormattedDate()
         textViewStoryContent.text = content.content.fromHtml()
         textViewStoryName.text = content.title.name
