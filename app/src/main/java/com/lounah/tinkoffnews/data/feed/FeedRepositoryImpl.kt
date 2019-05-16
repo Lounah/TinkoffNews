@@ -6,10 +6,9 @@ import com.lounah.tinkoffnews.data.source.local.dao.storypreview.StoryPreviewsDa
 import com.lounah.tinkoffnews.data.source.local.entity.StoryPreviewEntity
 import com.lounah.tinkoffnews.data.source.remote.Api
 import com.lounah.tinkoffnews.domain.feed.NewsFeedRepository
+import com.lounah.tinkoffnews.presentation.extensions.async
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.Single
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -27,7 +26,6 @@ class FeedRepositoryImpl @Inject constructor(
     private var page: Int = 0
 
     override fun fetchNewsFeed(forceRefresh: Boolean): Single<List<StoryPreviewEntity>> {
-        Timber.i("fetch news force = %s, page = %s, empty = %s", forceRefresh, page, inMemoryCachedStoryPreviews.isEmpty())
         return if (inMemoryCachedStoryPreviews.isNotEmpty()) {
             if (forceRefresh) {
                 page = 1
@@ -41,11 +39,15 @@ class FeedRepositoryImpl @Inject constructor(
         } else {
             return fetchNewsFeedFromApi()
                     .map { it.map { StoryPreviewEntity(it.id, it.name, it.text, isBookmarked = false, date = it.publicationDate.milliseconds) } }
-                    .doOnSuccess {
-                        inMemoryCachedStoryPreviews.addAll(it.filter { storyPreviewEntity ->
-                            inMemoryCachedStoryPreviews.contains(storyPreviewEntity).not()
-                        })
-                        storyPreviewsDao.addAll(it.sortedBy { Date(it.date) }).subscribe()
+                    .doOnSuccess { previews ->
+                        storyPreviewsDao.addAll(previews.sortedBy { Date(it.date) })
+                                .async()
+                                .doOnSubscribe {
+                                    inMemoryCachedStoryPreviews.addAll(previews.filter { storyPreviewEntity ->
+                                        inMemoryCachedStoryPreviews.contains(storyPreviewEntity).not()
+                                    })
+                                }
+                                .subscribe()
                     }
                     .map { it.subList(0, PAGING_PAGE_SIZE) }
                     .onErrorResumeNext {
@@ -69,6 +71,4 @@ class FeedRepositoryImpl @Inject constructor(
     }
 
     private fun fetchNewsFeedFromApi(): Single<List<StoryPreview>> = api.fetchNews().map { it.payload }
-
-    private fun fetchNewsFromDb(): Single<List<StoryPreviewEntity>> = storyPreviewsDao.getAll()
 }

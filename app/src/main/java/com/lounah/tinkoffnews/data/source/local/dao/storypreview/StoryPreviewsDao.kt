@@ -20,12 +20,12 @@ class StoryPreviewsDao @Inject constructor(
 ): BaseDao<StoryPreviewEntity> {
 
     private companion object {
-        private val SELECT_QUERY = "SELECT * FROM ${DatabaseContract.StoryPreviewEntityTable.TABLE_NAME}"
+        private val SELECT_ALL_QUERY = "SELECT * FROM ${DatabaseContract.StoryPreviewEntityTable.TABLE_NAME}"
     }
 
     override fun getAll(): Single<List<StoryPreviewEntity>> {
         return Single.create { emitter ->
-            val result = selectQueryEngine.executeRawQuery(SELECT_QUERY, sqLiteDatabase, DatabaseContract.StoryPreviewEntityTable.TABLE_NAME,  0)
+            val result = selectQueryEngine.executeRawQuery(SELECT_ALL_QUERY, sqLiteDatabase, DatabaseContract.StoryPreviewEntityTable.TABLE_NAME,  0)
             emitter.onSuccess(result.sortedBy { Date(it.date) }.reversed())
         }
     }

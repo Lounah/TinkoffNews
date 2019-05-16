@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.fragment_news_feed.*
 import javax.inject.Inject
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
+import com.lounah.tinkoffnews.presentation.feed.list.StorySummaryViewHolder
 import kotlin.properties.Delegates
 
 
@@ -47,7 +48,6 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             }
         }
     }
-
 
     override fun initUI() {
         setUpToolbar()
@@ -136,6 +136,11 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             hideNavigationIcon()
             setShouldShowElevation(false)
             setTitle(getString(R.string.feed))
+            setOnClickListener {
+                recyclerViewNewsFeed.post {
+                    recyclerViewNewsFeed.smoothScrollToPosition(0)
+                }
+            }
         }
     }
 
@@ -145,6 +150,10 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
                 context?.let {
                     startActivity(StoryDetailsActivity.createStartIntent(it, story.id))
                 }
+            }
+        }, object : StorySummaryViewHolder.OnBookmarkClickedCallback {
+            override fun onBookmarkClicked(storyId: Int) {
+
             }
         })
         recyclerViewNewsFeed.apply {
@@ -156,7 +165,6 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             newsFeedListOnScrollListener = object : NewsFeedOnScrollListener(newsFeedAdapter) {
                 override fun onLoadBefore(before: StoryViewObject?) {
                     presenter.fetchNewsFeed(forceRefresh = false, initialLoading = false)
-                    // TODO: additional logic
                 }
 
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

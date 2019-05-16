@@ -3,6 +3,7 @@ package com.lounah.tinkoffnews.presentation.bookmarks
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.common.BaseFragment
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedAdapter
+import com.lounah.tinkoffnews.presentation.feed.list.StorySummaryViewHolder
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import com.lounah.tinkoffnews.presentation.newsdetails.StoryDetailsActivity
 import kotlinx.android.synthetic.main.fragment_bookmarks.*
@@ -61,6 +62,10 @@ class BookmarksFragment : BaseFragment(), BookmarksFragmentView {
                 context?.let {
                     startActivity(StoryDetailsActivity.createStartIntent(it, story.id))
                 }
+            }
+        }, object : StorySummaryViewHolder.OnBookmarkClickedCallback {
+            override fun onBookmarkClicked(storyId: Int) {
+
             }
         })
         recyclerViewBookmarks.emptyView = emptyViewBookmarks

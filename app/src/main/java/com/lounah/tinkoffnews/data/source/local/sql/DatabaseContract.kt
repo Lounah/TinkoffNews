@@ -6,14 +6,14 @@ import android.provider.BaseColumns
 object DatabaseContract {
     abstract class StoryPreviewEntityTable : BaseColumns {
         companion object {
-            val TABLE_NAME = "story_previews"
-            val COLUMN_NAME_ID = "id"
-            val COLUMN_NAME_NAME = "name"
-            val COLUMN_NAME_TEXT = "text"
-            val COLUMN_NAME_IS_BOOKMARKED = "isBookmarked"
-            val COLUMN_NAME_DATE = "date"
+            const val TABLE_NAME = "story_previews"
+            const val COLUMN_NAME_ID = "id"
+            const val COLUMN_NAME_NAME = "name"
+            const val COLUMN_NAME_TEXT = "text"
+            const val COLUMN_NAME_IS_BOOKMARKED = "isBookmarked"
+            const val COLUMN_NAME_DATE = "date"
 
-            val CREATE_DATABASE = (
+            const val CREATE_DATABASE = (
                     "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                             + StoryPreviewEntityTable.COLUMN_NAME_ID + " INTEGER PRIMARY KEY, "
                             + StoryPreviewEntityTable.COLUMN_NAME_NAME + " TEXT,"
@@ -21,22 +21,22 @@ object DatabaseContract {
                             + StoryPreviewEntityTable.COLUMN_NAME_IS_BOOKMARKED + " BOOLEAN,"
                             + StoryPreviewEntityTable.COLUMN_NAME_DATE + " LONG );")
 
-            val DELETE_DATABASE = "DROP TABLE IF EXIST " + StoryPreviewEntityTable.TABLE_NAME
+            const val DELETE_DATABASE = "DROP TABLE IF EXIST " + StoryPreviewEntityTable.TABLE_NAME
         }
     }
 
     abstract class StoryDetailsTable : BaseColumns {
         companion object {
-            val TABLE_NAME = "story_details"
-            val COLUMN_NAME_ID = "id"
-            val COLUMN_NAME_TITLE = "title"
-            val COLUMN_NAME_TEXT = "text"
-            val COLUMN_NAME_CONTENT = "content"
-            val COLUMN_NAME_NAME = "name"
-            val COLUMN_NAME_IS_BOOKMARKED = "isBookmarked"
-            val COLUMN_NAME_DATE = "date"
+            const val TABLE_NAME = "story_details"
+            const val COLUMN_NAME_ID = "id"
+            const val COLUMN_NAME_TITLE = "title"
+            const val COLUMN_NAME_TEXT = "text"
+            const val COLUMN_NAME_CONTENT = "content"
+            const val COLUMN_NAME_NAME = "name"
+            const val COLUMN_NAME_IS_BOOKMARKED = "isBookmarked"
+            const val COLUMN_NAME_DATE = "date"
 
-            val CREATE_DATABASE = (
+            const val CREATE_DATABASE = (
                     "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                             + StoryDetailsTable.COLUMN_NAME_ID + " INTEGER PRIMARY KEY, "
                             + StoryDetailsTable.COLUMN_NAME_NAME + " TEXT,"
@@ -46,7 +46,7 @@ object DatabaseContract {
                             + StoryDetailsTable.COLUMN_NAME_IS_BOOKMARKED + " BOOLEAN,"
                             + StoryDetailsTable.COLUMN_NAME_DATE + " TEXT );")
 
-            val DELETE_DATABASE = "DROP TABLE IF EXIST " + StoryDetailsTable.TABLE_NAME
+            const val DELETE_DATABASE = "DROP TABLE IF EXIST " + StoryDetailsTable.TABLE_NAME
         }
     }
 

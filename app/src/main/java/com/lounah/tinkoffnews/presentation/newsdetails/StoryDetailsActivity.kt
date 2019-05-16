@@ -4,18 +4,26 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
+import android.text.method.LinkMovementMethod
+import android.text.util.Linkify
 import android.util.TypedValue
+import android.webkit.WebSettings
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.data.model.StoryDetails
 import com.lounah.tinkoffnews.presentation.common.BaseActivity
 import com.lounah.tinkoffnews.presentation.extensions.fromHtml
 import com.lounah.tinkoffnews.presentation.extensions.getDrawableCompat
+import com.lounah.tinkoffnews.presentation.extensions.spToPx
 import kotlinx.android.synthetic.main.activity_story_details.*
 import javax.inject.Inject
 
 private const val VIEW_DATA = 0
 private const val VIEW_PROGRESS = 1
 private const val VIEW_ERROR = 2
+
+private const val CONTENT_SIZE_ZOOM_NORMAL = 100
+private const val CONTENT_SIZE_ZOOM_MEDIUM = 150
+private const val CONTENT_SIZE_ZOOM_LARGE = 200
 
 class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
 
@@ -67,28 +75,46 @@ class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
         }
         textViewStoryDetailsTitle.text = content.title.text.fromHtml()
         textViewStoryDate.text = content.getShortFormattedDate()
-        textViewStoryContent.text = content.content.fromHtml()
+        webView.loadData(content.content, "text/html; charset=UTF-8", null)
         textViewStoryName.text = content.title.name
     }
 
     override fun setNormalFontSize() {
-        textViewStoryContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.text_content_normal))
+        webView.settings.textZoom = CONTENT_SIZE_ZOOM_NORMAL
     }
 
     override fun setMiddleFontSize() {
-        textViewStoryContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.text_content_middle))
+        webView.settings.textZoom = CONTENT_SIZE_ZOOM_MEDIUM
     }
 
     override fun setLargeFontSize() {
-        textViewStoryContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.text_content_large))
+        webView.settings.textZoom = CONTENT_SIZE_ZOOM_LARGE
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.activity_transition_stub, R.anim.activity_transition_ltr_exit)
     }
 
     private fun initUI() {
         setUpToolbar()
+        initContentWebView()
         buttonChangeFontSize.setOnClickListener {
             presenter.onChangeFontSizeClicked()
         }
         presenter.onCreate(storyId)
+    }
+
+    private fun initContentWebView() {
+        webView.settings.apply {
+            cacheMode = WebSettings.LOAD_NO_CACHE
+            setAppCacheEnabled(false)
+            blockNetworkImage = true
+            loadsImagesAutomatically = false
+            blockNetworkLoads = true
+            setGeolocationEnabled(false)
+            setNeedInitialFocus(false)
+        }
     }
 
     private fun setUpToolbar() {
@@ -98,7 +124,10 @@ class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
 
             }
             setNavigationIcon(context.getDrawableCompat(R.drawable.ic_arrow_back_black_24dp)!!) {
-                finish()
+                onBackPressed()
+            }
+            setOnClickListener {
+                scrollViewStoryDetailsContent.smoothScrollTo(0, 0)
             }
         }
     }

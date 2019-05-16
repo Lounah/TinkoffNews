@@ -6,7 +6,8 @@ import com.lounah.tinkoffnews.presentation.common.recycler.BaseViewHolder
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import timber.log.Timber
 
-class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback) : BaseAdapter<StoryViewObject>() {
+class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback,
+                      private val onBookmarkClickedCallback: StorySummaryViewHolder.OnBookmarkClickedCallback) : BaseAdapter<StoryViewObject>() {
 
     interface OnStoryClickedCallback {
         fun onStoryClicked(story: StoryViewObject)
@@ -23,7 +24,7 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<StoryViewObject> {
         return when(viewType) {
             NewsFeedViewHolders.FEED_ITEM.type -> {
-                val viewHolder = StorySummaryViewHolder(parent)
+                val viewHolder = StorySummaryViewHolder(parent, onBookMarkClicked = onBookmarkClickedCallback)
                 viewHolder.itemView.setOnClickListener {
                     onStoryClickedCallback.onStoryClicked(items[viewHolder.adapterPosition])
                 }
@@ -50,14 +51,6 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
     fun showLoading() {
         if (!isLoading) {
             isLoading = true
-//            notifyItemInserted(getLoadingPosition())
-        }
-    }
-
-    fun hideLoading() {
-        if (isLoading) {
-            isLoading = false
-//            notifyItemRemoved(getLoadingPosition())
         }
     }
 

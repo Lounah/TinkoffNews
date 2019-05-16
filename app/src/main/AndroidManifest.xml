@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.newsdetails.StoryDetailsActivity"/>
+        <activity android:name=".presentation.newsdetails.StoryDetailsActivity"
+            android:hardwareAccelerated="true"/>
     </application>
 
 </manifest>

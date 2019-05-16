@@ -26,25 +26,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp">
 
-        <ImageView
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/default_padding"
-            android:src="@drawable/fb_ic_clock_outline_16"
-            android:tint="@color/grayLight"/>
-
         <TextView
             android:id="@+id/textViewItemStoryDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="36dp"
+            android:layout_marginStart="16dp"
             android:textColor="@color/grayLight"
             android:textSize="12sp"
             tools:text="23 December 2019"/>
 
         <com.lounah.tinkoffnews.presentation.widget.ResponsiveImageButton
+            android:id="@+id/buttonStorySummaryAddToBookmarks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

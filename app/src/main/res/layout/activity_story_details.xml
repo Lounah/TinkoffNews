@@ -42,9 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:paddingStart="@dimen/default_padding"
             android:paddingTop="@dimen/default_padding"
-            android:paddingEnd="@dimen/default_padding"
             android:paddingBottom="24dp"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
@@ -52,13 +50,15 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textViewStoryDetailsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:lineSpacingExtra="4dp"
                     android:textColor="@color/black"
                     android:textSize="26sp"
@@ -74,6 +74,8 @@
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/fb_ic_clock_outline_16"
                         android:tint="@color/grayLight"/>
 
@@ -82,27 +84,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="36dp"
                         android:textColor="@color/grayLight"
                         android:textSize="12sp"
                         tools:text="23 June 1999"/>
                 </FrameLayout>
 
-                <com.lounah.tinkoffnews.presentation.widget.CorrectlyMeasureTextView
-                    android:id="@+id/textViewStoryContent"
+                <WebView
+                    android:id="@+id/webView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:autoLink="all"
-                    android:linksClickable="true"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_content_normal"
-                    tools:text="Some text"/>
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:scrollbars="none"/>
 
                 <TextView
                     android:id="@+id/textViewStoryName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:textSize="@dimen/text_caption"
                     tools:text="23061999-Tinkoff-Something"/>
