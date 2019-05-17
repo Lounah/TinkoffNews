@@ -1,17 +1,25 @@
 <resources>
     <string name="app_name">Тинькофф Новости</string>
-    <string name="feed">Новости</string>
 
-    <string name="error_state_default_state">Не удалось загрузить данные</string>
-    <string name="error_state_default_retry">Попробовать снова</string>
-    <string name="bottom_navigation_feed">Новости</string>
-    <string name="bottom_navigation_bookmarks">Закладки</string>
-    <string name="bottom_navigation_settings">Настройки</string>
+    <!-- COMMON -->
     <string name="error_loading_data">Не удалось обновить данные</string>
-    <string name="about">О приложении</string>
-    <string name="licenses">Лицензии открытого ПО</string>
-    <string name="send_feedback">Оставить отзыв</string>
-    <string name="settings">Настройки</string>
     <string name="empty_state_default_text">Тут ничего нет</string>
     <string name="successfully_removed">Успешно удалено из закладок</string>
+    <string name="error_state_default_state">Не удалось загрузить данные</string>
+    <string name="error_state_default_retry">Попробовать снова</string>
+
+    <!-- FEED -->
+    <string name="feed">Новости</string>
+    <string name="bottom_navigation_feed">Новости</string>
+
+    <!-- BOOKMARKS -->
+    <string name="bottom_navigation_bookmarks">Закладки</string>
+
+    <!-- ADVANCED INFO -->
+    <string name="about">О приложении</string>
+    <string name="licenses">Лицензии</string>
+    <string name="send_feedback">Оставить отзыв</string>
+    <string name="advanced">Дополнительно</string>
+    <string name="bottom_navigation_advanced">Дополнительно</string>
+
 </resources>

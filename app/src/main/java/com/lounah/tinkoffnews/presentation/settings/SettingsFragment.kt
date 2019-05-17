@@ -27,7 +27,7 @@ class SettingsFragment : BaseFragment() {
 
     private fun setUpToolbar() {
         toolbarSettings.apply {
-            setTitle(getString(R.string.settings))
+            setTitle(getString(R.string.advanced))
             setShouldShowElevation(false)
             setShouldShowNavigationIcon(false)
         }

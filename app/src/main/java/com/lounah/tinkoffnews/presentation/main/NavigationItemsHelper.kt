@@ -43,8 +43,8 @@ class NavigationItemsHelper
                         return BookmarksFragment.newInstance()
                     }
                 }))
-        menuItems.add(BottomNavigationItem(R.string.bottom_navigation_settings,
-                R.drawable.ic_vector_settings_stroke,
+        menuItems.add(BottomNavigationItem(R.string.bottom_navigation_advanced,
+                R.drawable.ic_menu_more_28,
                 View.generateViewId(),
                 BottomNavigationItemType.TAB_SETTINGS,
                 object : BottomNavigationFragmentFactory {
