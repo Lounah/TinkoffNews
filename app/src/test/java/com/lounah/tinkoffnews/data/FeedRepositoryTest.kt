@@ -9,7 +9,7 @@ import com.lounah.tinkoffnews.data.source.local.dao.storydetails.StoryDetailsDao
 import com.lounah.tinkoffnews.data.source.local.dao.storypreview.StoryPreviewsDao
 import com.lounah.tinkoffnews.data.source.local.entity.StoryDetailsEntity
 import com.lounah.tinkoffnews.data.source.local.entity.StoryPreviewEntity
-import com.lounah.tinkoffnews.data.source.remote.Api
+import com.lounah.tinkoffnews.data.source.remote.NewsApi
 import com.lounah.tinkoffnews.domain.feed.NewsFeedRepository
 import com.lounah.tinkoffnews.presentation.TrampolineSchedulerRule
 import io.reactivex.Completable
@@ -35,7 +35,7 @@ class FeedRepositoryTest {
     val rxSchedulerRule = TrampolineSchedulerRule()
 
     @Mock
-    lateinit var api: Api
+    lateinit var newsApi: NewsApi
 
     @Mock
     lateinit var storyPreviewsDao: StoryPreviewsDao
@@ -48,20 +48,20 @@ class FeedRepositoryTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        repository = FeedRepositoryImpl(api, storyPreviewsDao, storyDetailsDao)
+        repository = FeedRepositoryImpl(newsApi, storyPreviewsDao, storyDetailsDao)
     }
 
     @Test
     fun fetches_feed_from_api_first_if_db_is_empty() {
         whenever(storyPreviewsDao.getAll(PAGING_PAGE_SIZE, 0)).thenReturn(Single.error(Exception())) // empty result
-        whenever(api.fetchNews()).thenReturn(Single.just(ApiResponse("result", emptyList(), "")))
+        whenever(newsApi.fetchNews()).thenReturn(Single.just(ApiResponse("result", emptyList(), "")))
 
         repository.fetchNewsFeed(false)
             .test()
 
         verify(storyPreviewsDao).getAll(PAGING_PAGE_SIZE, 0)
-        verify(api).fetchNews()
-        verifyNoMoreInteractions(api)
+        verify(newsApi).fetchNews()
+        verifyNoMoreInteractions(newsApi)
         verify(storyPreviewsDao).addAll(emptyList())
         verifyNoMoreInteractions(storyPreviewsDao)
     }
@@ -75,7 +75,7 @@ class FeedRepositoryTest {
             .test()
 
         verify(storyPreviewsDao).getAll(PAGING_PAGE_SIZE, 0)
-        verifyZeroInteractions(api)
+        verifyZeroInteractions(newsApi)
         verifyNoMoreInteractions(storyPreviewsDao)
     }
 
@@ -110,7 +110,7 @@ class FeedRepositoryTest {
     @Test
     fun fetches_story_details_from_api_first_if_db_is_empty() {
         whenever(storyDetailsDao.getById(1)).thenReturn(Single.error(Exception())) // empty result
-        whenever(api.fetchStoryById(1))
+        whenever(newsApi.fetchStoryById(1))
             .thenReturn(
                 Single.just(
                     ApiResponse(
@@ -130,8 +130,8 @@ class FeedRepositoryTest {
             .test()
 
         verify(storyDetailsDao).getById(1)
-        verify(api).fetchStoryById(1)
-        verifyNoMoreInteractions(api)
+        verify(newsApi).fetchStoryById(1)
+        verifyNoMoreInteractions(newsApi)
     }
 
     @Test
@@ -153,6 +153,6 @@ class FeedRepositoryTest {
             .test()
 
         verify(storyDetailsDao).getById(1)
-        verifyZeroInteractions(api)
+        verifyZeroInteractions(newsApi)
     }
 }

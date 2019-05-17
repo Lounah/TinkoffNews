@@ -3,7 +3,7 @@ package com.lounah.tinkoffnews.di.common.modules
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.lounah.tinkoffnews.BuildConfig
-import com.lounah.tinkoffnews.data.source.remote.Api
+import com.lounah.tinkoffnews.data.source.remote.NewsApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -34,9 +34,9 @@ class NetworkModule {
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
-
-    @Singleton
-    @Provides
-    fun provideApi(retrofit: Retrofit) = retrofit.create(Api::class.java)
+//
+//    @Singleton
+//    @Provides
+//    fun provideApi(retrofit: Retrofit) = retrofit.create(NewsApi::class.java)
 
 }

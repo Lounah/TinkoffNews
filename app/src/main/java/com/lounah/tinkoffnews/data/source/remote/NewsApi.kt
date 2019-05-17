@@ -7,7 +7,7 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface Api {
+interface NewsApi {
     @GET("v1/news")
     fun fetchNews(): Single<ApiResponse<List<StoryPreview>>>
 

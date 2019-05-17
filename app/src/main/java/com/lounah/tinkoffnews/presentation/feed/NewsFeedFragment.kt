@@ -94,7 +94,7 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         /**
          *  I know that it's awful workaround
          */
-        recyclerViewNewsFeed.postDelayed({
+        recyclerViewNewsFeed?.postDelayed({
             (recyclerViewNewsFeed.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(savedScrollPosition, 0)
         }, 100)
     }
