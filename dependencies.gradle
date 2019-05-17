@@ -7,13 +7,12 @@ versions.support_androidx = '1.0.0'
 versions.design = '1.0.0-rc01'
 versions.test_runner = '1.0.2'
 versions.gradle_plugin = '3.3.2'
-versions.retrofit = '2.4.0'
-versions.retrofitlogger = '3.9.1'
 versions.rxjava = '2.1.7'
 versions.rxandroid = '2.0.2'
 versions.dagger = '2.16'
 versions.timber = '4.7.1'
 versions.licensesDialog = '2.0.0'
+versions.gson = '2.8.5'
 
 // tests
 versions.junit = '4.12'
@@ -27,6 +26,7 @@ deps.android_ktx = "androidx.core:core-ktx:1.1.0-alpha05"
 deps.timber = "com.jakewharton.timber:timber:$versions.timber"
 deps.mocks_maker = "org.mockito:mockito-inline:$versions.mockitoMockMaker"
 deps.licenses_dialog = "de.psdev.licensesdialog:licensesdialog:$versions.licensesDialog"
+deps.gson = "com.google.code.gson:gson:$versions.gson"
 
 def support = [:]
 support.app_compat = "androidx.appcompat:appcompat:$versions.support_androidx"
@@ -47,13 +47,6 @@ kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
 kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 kotlin.extension = "org.jetbrains.kotlin:kotlin-android-extensions:$versions.kotlin"
 deps.kotlin = kotlin
-
-def retrofit = [:]
-retrofit.runtime = "com.squareup.retrofit2:retrofit:$versions.retrofit"
-retrofit.rxadapter = "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
-retrofit.factory = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
-retrofit.logger = "com.squareup.okhttp3:logging-interceptor:${versions.retrofitlogger}"
-deps.retrofit = retrofit
 
 def rx = [:]
 rx.rxjava = "io.reactivex.rxjava2:rxjava:$versions.rxjava"
