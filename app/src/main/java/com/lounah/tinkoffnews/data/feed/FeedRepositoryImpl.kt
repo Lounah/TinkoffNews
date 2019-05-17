@@ -6,7 +6,7 @@ import com.lounah.tinkoffnews.data.source.local.dao.storydetails.StoryDetailsDao
 import com.lounah.tinkoffnews.data.source.local.dao.storypreview.StoryPreviewsDao
 import com.lounah.tinkoffnews.data.source.local.entity.StoryDetailsEntity
 import com.lounah.tinkoffnews.data.source.local.entity.StoryPreviewEntity
-import com.lounah.tinkoffnews.data.source.remote.Api
+import com.lounah.tinkoffnews.data.source.remote.NewsApi
 import com.lounah.tinkoffnews.domain.feed.NewsFeedRepository
 import com.lounah.tinkoffnews.presentation.extensions.async
 import io.reactivex.Completable
@@ -16,7 +16,7 @@ import java.util.*
 import javax.inject.Inject
 
 class FeedRepositoryImpl @Inject constructor(
-    private val api: Api,
+    private val newsApi: NewsApi,
     private val storyPreviewsDao: StoryPreviewsDao,
     private val storyDetailsDao: StoryDetailsDao
 ) : NewsFeedRepository {
@@ -65,7 +65,7 @@ class FeedRepositoryImpl @Inject constructor(
 
     override fun fetchStoryById(id: Int): Single<StoryDetailsEntity> = storyDetailsDao.getById(id)
             .onErrorResumeNext {
-                Single.zip(api.fetchStoryById(id).map { it.payload }, storyPreviewsDao.getById(id),
+                Single.zip(newsApi.fetchStoryById(id).map { it.payload }, storyPreviewsDao.getById(id),
                         BiFunction { storyDetails: StoryDetails, storyPreview: StoryPreviewEntity ->
                             Pair(storyDetails, storyPreview.isBookmarked)
                 })
@@ -95,5 +95,5 @@ class FeedRepositoryImpl @Inject constructor(
         return storyPreviewsDao.removeFromBookmarks(storyId).andThen(storyDetailsDao.removeFromBookmarks(storyId))
     }
 
-    private fun fetchNewsFeedFromApi(): Single<List<StoryPreview>> = api.fetchNews().map { it.payload }
+    private fun fetchNewsFeedFromApi(): Single<List<StoryPreview>> = newsApi.fetchNews().map { it.payload }
 }

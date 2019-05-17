@@ -6,7 +6,6 @@ import com.lounah.tinkoffnews.app.TinkoffNewsApplication
 import com.lounah.tinkoffnews.di.app.ImplementationBindingModule
 import com.lounah.tinkoffnews.di.common.modules.AppModule
 import com.lounah.tinkoffnews.di.common.modules.MappersModule
-import com.lounah.tinkoffnews.di.common.modules.NetworkModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -18,7 +17,6 @@ import javax.inject.Singleton
             AndroidInjectionModule::class,
             ActivitiesBuildersModule::class,
             AppModule::class,
-            NetworkModule::class,
             MappersModule::class,
             ImplementationBindingModule::class
         ]

@@ -18,10 +18,4 @@
         <copyright>Copyright (c) 2016-present, RxJava Contributors.</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
-    <notice>
-        <name>Retrofit</name>
-        <url>https://square.github.io/retrofit/</url>
-        <copyright>Copyright 2013 Square, Inc.</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
 </notices>
