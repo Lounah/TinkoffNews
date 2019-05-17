@@ -4,7 +4,6 @@
 
     <dimen name="text_size_title">26sp</dimen>
 
-
     <dimen name="default_padding">16dp</dimen>
     <dimen name="default_small_padding">8dp</dimen>
 
