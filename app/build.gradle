@@ -13,7 +13,7 @@ android {
         versionCode 1
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        versionName "1.0.0 от " + getDate()
+        versionName "2.0.0 (No libs) " + getDate()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "DB_NAME", "\"tinkoff_news.db\"")
         buildConfigField("String", "BASE_URL", "\"https://api.tinkoff.ru/\"")
