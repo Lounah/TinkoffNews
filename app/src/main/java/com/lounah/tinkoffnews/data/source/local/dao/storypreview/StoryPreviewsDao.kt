@@ -9,7 +9,6 @@ import io.reactivex.Single
 import javax.inject.Inject
 import com.lounah.tinkoffnews.data.source.local.sql.DatabaseContract
 import android.content.ContentValues
-import androidx.room.EmptyResultSetException
 import com.lounah.tinkoffnews.data.source.local.dao.BaseDao
 import java.util.*
 

@@ -77,18 +77,10 @@ dependencies {
     implementation deps.support.app_compat
     implementation deps.support.recycler
     implementation deps.support.design
-    implementation deps.support.card_view
-    implementation deps.support.constraint
     implementation deps.timber
+    implementation deps.licenses_dialog
 
     implementation 'com.android.support:multidex:1.0.3'
-
-    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // //// PERSISTENCE
-    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    implementation deps.room.runtime
-    implementation deps.room.rxjava
-    kapt deps.room.compiler
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // //// NETWORK
@@ -112,7 +104,6 @@ dependencies {
     implementation deps.dagger.support
     kapt deps.dagger.processor
     kapt deps.dagger.compiler
-    implementation deps.arch_core.lifecycle_extension
 
     // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // //// TESTING
@@ -121,7 +112,6 @@ dependencies {
     testImplementation deps.tests.hamcrest
     testImplementation deps.tests.mockito
     testImplementation deps.tests.robolectric
-    testImplementation deps.arch_core.testing
 
     androidTestImplementation deps.tests.espressoContrib
     androidTestImplementation deps.tests.androidTestRules
