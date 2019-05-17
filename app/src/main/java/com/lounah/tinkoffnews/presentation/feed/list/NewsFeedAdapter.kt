@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import com.lounah.tinkoffnews.presentation.common.recycler.BaseAdapter
 import com.lounah.tinkoffnews.presentation.common.recycler.BaseViewHolder
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
-import timber.log.Timber
 
 class NewsFeedAdapter(
     private val onStoryClickedCallback: OnStoryClickedCallback,
@@ -41,9 +40,7 @@ class NewsFeedAdapter(
         val viewType = getItemViewType(position)
 
         when (viewType) {
-            NewsFeedViewHolders.LOADING.type -> {
-                Timber.i("loading")
-            }
+            NewsFeedViewHolders.LOADING.type -> { }
             NewsFeedViewHolders.FEED_ITEM.type -> {
                 (holder as StorySummaryViewHolder).bind(items[position])
             }
@@ -77,5 +74,4 @@ class NewsFeedAdapter(
     fun getEarliestItem() = items.lastOrNull()
 
     private fun getLoadingPosition() = items.size
-
 }

@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lounah.tinkoffnews.presentation.extensions.hide
 import com.lounah.tinkoffnews.presentation.extensions.show
 
+/**
+ *  A simple [RecyclerView], which supports empty state and shows emptyView, when adapter is empty
+ */
 class EmptySupportingRecyclerView : RecyclerView {
 
     var emptyView: View? = null

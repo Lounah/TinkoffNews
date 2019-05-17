@@ -14,7 +14,9 @@ import com.lounah.tinkoffnews.presentation.extensions.invisible
 import com.lounah.tinkoffnews.presentation.extensions.show
 import kotlinx.android.synthetic.main.view_state_error.view.*
 
-
+/**
+ *  A simple fullscreen error view
+ */
 class ErrorView : LinearLayout {
 
     constructor(context: Context) : super(context) {

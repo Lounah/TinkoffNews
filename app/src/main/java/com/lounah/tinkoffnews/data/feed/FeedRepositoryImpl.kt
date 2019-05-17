@@ -12,7 +12,6 @@ import com.lounah.tinkoffnews.presentation.extensions.async
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -32,7 +31,7 @@ class FeedRepositoryImpl @Inject constructor(
         return when {
             forceRefresh -> {
                 page = 1
-                storyPreviewsDao.getAll(PAGING_PAGE_SIZE, PAGING_PAGE_SIZE)
+                storyPreviewsDao.getAll(limit = PAGING_PAGE_SIZE, offset = PAGING_PAGE_SIZE)
             }
             page != 0 -> {
                 val limit = (page + 1) * PAGING_PAGE_SIZE
@@ -44,7 +43,15 @@ class FeedRepositoryImpl @Inject constructor(
                     // can throw empty result set exception
                     .onErrorResumeNext {
                         fetchNewsFeedFromApi()
-                                .map { it.map { StoryPreviewEntity(it.id, it.name, it.text, isBookmarked = false, date = it.publicationDate.milliseconds) } }
+                                .map { it.map {
+                                    StoryPreviewEntity(
+                                            it.id,
+                                            it.name,
+                                            it.text,
+                                            isBookmarked = false,
+                                            date = it.publicationDate.milliseconds
+                                    )
+                                } }
                                 .doOnSuccess { previews ->
                                     storyPreviewsDao.addAll(previews.sortedBy { Date(it.date) })
                                             .async()
@@ -69,10 +76,11 @@ class FeedRepositoryImpl @Inject constructor(
                                     it.first.title.name,
                                     it.first.title.publicationDate.milliseconds,
                                     it.first.content,
-                                    it.second
+                                    isBookmarked = it.second
                             )
                         }
                         .doOnSuccess {
+                            // TODO: is there any way to perform this without creation a new subscription?
                             storyDetailsDao.add(it)
                                     .async()
                                     .subscribe()

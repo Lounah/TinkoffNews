@@ -1,6 +1,5 @@
 package com.lounah.tinkoffnews.presentation.main
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
@@ -8,19 +7,14 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.common.BaseActivity
-import com.lounah.tinkoffnews.presentation.feed.NewsFeedFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 import javax.inject.Inject
 
+private const val EXTRA_CURRENT_TAB_TYPE = "currentTabType"
+private const val EXTRA_TABS_STACK = "tabsStack"
+private const val EXTRA_START_TAB = "startTab"
+
 class MainActivity : BaseActivity(), MainMvpView {
-
-    companion object {
-
-        private const val EXTRA_CURRENT_TAB_TYPE = "currentTabType"
-        private const val EXTRA_TABS_STACK = "tabsStack"
-        private const val EXTRA_START_TAB = "startTab"
-    }
 
     @Inject
     lateinit var presenter: MainActivityPresenter
@@ -28,17 +22,7 @@ class MainActivity : BaseActivity(), MainMvpView {
     @Inject
     lateinit var navigationItemsHelper: NavigationItemsHelper
 
-    /**
-     * В данном активити реализован мехнизм сохранения переходов по табам.
-     * Первый таб является конечным, и сбрасывает стек переходов.
-     * Чтобы после поворота стек сохранялся, эта переменная сохраняется.
-     * Эта переменная хранит тэги фрагментов, которые добавлялись в фрагмент менеджер.
-     * Если фрагмент был добавлен в фрагмент менеджер, то он не удаляется оттуда во время жизни этого активити. Используется
-     * механизм attach() и detach() что соответсвет поведению фрагментов, если бы их добавляли в бекстек фрагментов
-     * (т.е. уничтожается только интерфейс при детаче)
-     */
     private val stack: ReorderedLinkedHashSet<String> = ReorderedLinkedHashSet()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,7 +94,6 @@ class MainActivity : BaseActivity(), MainMvpView {
 
     private fun setupBottomNavigationView(navigationItems: ArrayList<BottomNavigationItem>) {
         for (menuItem in navigationItems) {
-            // add(int groupId, int itemId, int order, int titleRes)
             bottomNavigationMain.menu.add(0,
                     menuItem.idRes,
                     0,

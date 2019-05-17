@@ -33,7 +33,6 @@ class MaterialDialog(context: Context) : Dialog(context) {
         private var negativeButtonText: Int? = null
         private var negativeButtonListener: View.OnClickListener? = null
         private var isCancelable = true
-        private var isProgress = false
 
         fun setBackgroundColor(@ColorRes color: Int): Builder {
             this.backgroundColor = color

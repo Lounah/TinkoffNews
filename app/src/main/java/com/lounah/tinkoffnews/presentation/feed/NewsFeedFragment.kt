@@ -13,18 +13,30 @@ import javax.inject.Inject
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import com.lounah.tinkoffnews.presentation.feed.list.StorySummaryViewHolder
-import timber.log.Timber
 import kotlin.properties.Delegates
 
-
+/**
+ *  ViewFlipper's views positions
+ */
 private const val VIEW_DATA = 0
 private const val VIEW_PROGRESS = 1
 private const val VIEW_ERROR = 2
 
 private const val EXTRA_RECYCLER_VIEW_SCROLL_POSITION = "EXTRA_RECYCLER_VIEW_SCROLL_POSITION"
 
+/**
+ *  Number of topics, that we must scroll for [fabNewsFeedScrollToTop]'s visibility is set @true
+ */
 private const val SCROLLED_ITEMS_TO_SHOW_SCROLL_TO_TOP_FAB_THRESHOLD = 5
 
+/**
+ *  Cuz i've used SQLLite here, idk how to make it 100% reactive, so i can not trigger
+ *  an update on recyclerView item, when it was changed.
+ *
+ *  We can open a new activity with story details and add this story to bookmarks,
+ *  but NewsFeedFragment will not know anything about this,
+ *  so we start a [StoryDetailsActivity] for result and pass two parameters back (is story saved & story's id)
+ */
 private const val REQUEST_ITEM_STATE_CHANGE = 0x0111
 
 class NewsFeedFragment : BaseFragment(), NewsFeedView {
@@ -59,7 +71,7 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         setUpSwipeRefreshLayout()
         fabNewsFeedScrollToTop.setOnClickListener {
             recyclerViewNewsFeed?.post {
-                recyclerViewNewsFeed.scrollToPosition(0)
+                recyclerViewNewsFeed.scrollToPosition(0) // to the top
                 appBarLayoutNewsFeed.setExpanded(true, true)
             }
         }
@@ -79,6 +91,9 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
 
     override fun onResume() {
         super.onResume()
+        /**
+         *  I know that it's awful workaround
+         */
         recyclerViewNewsFeed.postDelayed({
             (recyclerViewNewsFeed.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(savedScrollPosition, 0)
         }, 100)
@@ -100,7 +115,8 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_ITEM_STATE_CHANGE) {
             val recentlyOpenedStoryId = data?.getIntExtra(StoryDetailsActivity.EXTRA_RECENTLY_OPENED_STORY_ID, -1) ?: -1
-            val recentlyOpenedStoryIsSavedToBookmarks = data?.getBooleanExtra(StoryDetailsActivity.EXTRA_RECENTLY_OPENED_STORY_IS_SAVED_TO_BOOKMARKS, false) ?: false
+            val recentlyOpenedStoryIsSavedToBookmarks = data?.getBooleanExtra(StoryDetailsActivity.EXTRA_RECENTLY_OPENED_STORY_IS_SAVED_TO_BOOKMARKS, false)
+                    ?: false
             newsFeedAdapter.setItemWithIdIsSavedToBookmarks(recentlyOpenedStoryId, recentlyOpenedStoryIsSavedToBookmarks)
         }
     }
@@ -176,7 +192,6 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         recyclerViewNewsFeed.apply {
             adapter = newsFeedAdapter
             layoutManager = LinearLayoutManager(this@NewsFeedFragment.context).apply {
-                initialPrefetchItemCount = 3
                 isItemPrefetchEnabled = true
             }
             newsFeedListOnScrollListener = object : NewsFeedOnScrollListener(newsFeedAdapter) {

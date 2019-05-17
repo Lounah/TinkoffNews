@@ -23,7 +23,8 @@ class AdvancedOptionsFragment : BaseFragment(), AdvancedOptionsView {
         fun newInstance(): AdvancedOptionsFragment = AdvancedOptionsFragment()
     }
 
-    @Inject lateinit var presenter: AdvancedOptionsFragmentPresenter
+    @Inject
+    lateinit var presenter: AdvancedOptionsFragmentPresenter
 
     override fun initUI() {
         setUpToolbar()

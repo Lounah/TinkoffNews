@@ -5,22 +5,18 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Html
-import android.text.method.LinkMovementMethod
-import android.text.util.Linkify
-import android.util.TypedValue
 import android.webkit.WebSettings
 import com.lounah.tinkoffnews.R
-import com.lounah.tinkoffnews.data.model.StoryDetails
 import com.lounah.tinkoffnews.data.source.local.entity.StoryDetailsEntity
 import com.lounah.tinkoffnews.presentation.common.BaseActivity
 import com.lounah.tinkoffnews.presentation.extensions.fromHtml
 import com.lounah.tinkoffnews.presentation.extensions.getDrawableCompat
-import com.lounah.tinkoffnews.presentation.extensions.spToPx
 import kotlinx.android.synthetic.main.activity_story_details.*
-import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ *  ViewFlipper's view positions
+ */
 private const val VIEW_DATA = 0
 private const val VIEW_PROGRESS = 1
 private const val VIEW_ERROR = 2
@@ -32,6 +28,14 @@ private const val CONTENT_SIZE_ZOOM_LARGE = 200
 class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
 
     companion object {
+        /**
+         *  These two guys stand for a recently opened story (obvious).
+         *  Cuz i've used SQLLite here, idk how to make it 100% reactive, so i can not trigger
+         *  an update on recyclerView item, when it was changed.
+         *
+         *  We can add a story to bookmarks here, but NewsFeedFragment will not know anything about this,
+         *  so we start a [StoryDetailsActivity] for result and pass two parameters back (is story saved & story's id)
+         */
         const val EXTRA_RECENTLY_OPENED_STORY_ID = "EXTRA_RECENTLY_OPENED_STORY_ID"
         const val EXTRA_RECENTLY_OPENED_STORY_IS_SAVED_TO_BOOKMARKS = "EXTRA_RECENTLY_OPENED_STORY_IS_SAVED_TO_BOOKMARKS"
         private const val EXTRA_STORY_ID = "extra_story_id"
@@ -53,6 +57,11 @@ class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
         setContentView(R.layout.activity_story_details)
         presenter.attachView(this)
         initUI()
+    }
+
+    override fun onDestroy() {
+        presenter.detachView()
+        super.onDestroy()
     }
 
     override fun showFullscreenLoading() {
@@ -82,7 +91,14 @@ class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
         }
         textViewStoryDetailsTitle.text = content.title.fromHtml()
         textViewStoryDate.text = content.getShortFormattedDate()
+
+        /**
+         *  I know that webView rendering can be slow and tricky, but news format is so diverse,
+         *  so just using .fromHtml() isn't enough.
+         *  So i decided to use webView here in a case to support every story
+         */
         webView.loadData(content.content, "text/html; charset=UTF-8", null)
+
         textViewStoryName.text = content.name
 
         isBookmarked = content.isBookmarked
@@ -160,14 +176,12 @@ class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
     private fun setUpToolbar() {
         toolbarStoryDetails.apply {
             setShouldShowElevation(false)
-            setMenuIcon(context.getDrawableCompat(R.drawable.ic_bookmark_white)!!) {
-
-            }
+            setMenuIcon(context.getDrawableCompat(R.drawable.ic_bookmark_white)!!) {}
             setNavigationIcon(context.getDrawableCompat(R.drawable.ic_arrow_back_black_24dp)!!) {
                 onBackPressed()
             }
             setOnClickListener {
-                scrollViewStoryDetailsContent.smoothScrollTo(0, 0)
+                scrollViewStoryDetailsContent.smoothScrollTo(0, 0) // to the top
             }
         }
     }

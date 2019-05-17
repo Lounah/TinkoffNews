@@ -1,6 +1,5 @@
 package com.lounah.tinkoffnews.domain.feed
 
-import com.lounah.tinkoffnews.data.model.StoryDetails
 import com.lounah.tinkoffnews.data.source.local.entity.StoryDetailsEntity
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import io.reactivex.Completable

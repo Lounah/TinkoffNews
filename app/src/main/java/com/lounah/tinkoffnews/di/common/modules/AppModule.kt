@@ -20,7 +20,6 @@ import com.lounah.tinkoffnews.domain.feed.NewsFeedMapper
 import com.lounah.tinkoffnews.domain.feed.NewsFeedRepository
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
