@@ -29,8 +29,8 @@ A news viewer app based on Tinkoff API
 <li> <a href="">Timber</a></li>
 
 # Download
-https://yadi.sk/d/5CB9AgIYL4ucgg -- Release
-https://yadi.sk/d/_MFkE4sd2eaaww -- Debug
+https://yadi.sk/d/Pq-k3lkPo12-fQ -- Release
+https://yadi.sk/d/LDM5NCMWA3ypuw -- Debug
 
 # Примечания
 Изначально планировал написать два приложения, одно было бы с Rx, Dagger'ом, Room и Retrofit, а второе -- совсем без библиотек
