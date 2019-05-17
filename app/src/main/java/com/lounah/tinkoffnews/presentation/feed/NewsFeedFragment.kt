@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.fragment_news_feed.*
 import javax.inject.Inject
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
-import com.lounah.tinkoffnews.presentation.feed.list.StorySummaryViewHolder
+import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedDecoration
+import com.lounah.tinkoffnews.presentation.widget.StoryPreview
 import kotlin.properties.Delegates
 
 /**
@@ -184,7 +185,7 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
                     startActivityForResult(StoryDetailsActivity.createStartIntent(it, story.id), REQUEST_ITEM_STATE_CHANGE)
                 }
             }
-        }, object : StorySummaryViewHolder.OnBookmarkClickedCallback {
+        }, object : StoryPreview.OnBookmarkClickedCallback {
             override fun onBookmarkClicked(story: StoryViewObject) {
                 presenter.applyBookmarkClick(story)
             }
@@ -194,6 +195,7 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             layoutManager = LinearLayoutManager(this@NewsFeedFragment.context).apply {
                 isItemPrefetchEnabled = true
             }
+            addItemDecoration(NewsFeedDecoration())
             newsFeedListOnScrollListener = object : NewsFeedOnScrollListener(newsFeedAdapter) {
                 override fun onLoadBefore(before: StoryViewObject?) {
                     presenter.fetchNewsFeed(forceRefresh = false, initialLoading = false)
