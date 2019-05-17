@@ -8,6 +8,8 @@
     <string name="successfully_removed">Successfully removed from bookmarks</string>
     <string name="error_state_default_state">Error loading data</string>
     <string name="error_state_default_retry">Retry</string>
+    <string name="feedback_email">lounah@yandex.ru</string>
+    <string name="feedback_email_app_picker">You can share your feedback via email</string>
 
     <!-- FEED -->
     <string name="feed">Feed</string>
@@ -21,6 +23,10 @@
     <string name="licenses">Licenses</string>
     <string name="send_feedback">Send feedback</string>
     <string name="advanced">Advanced</string>
+    <string name="dialog_ok">OK</string>
     <string name="bottom_navigation_advanced">Advanced</string>
+    <string name="feedback_left_success_title">Thanks for your feedback!</string>
+    <string name="feedback_left_success_title_message">You help me to gain pwr, probably</string>
+    <string name="dialog_about_description">Version %1$s \n @author lounah: t.me/lounvh \n github.com/lounah</string>
 
 </resources>

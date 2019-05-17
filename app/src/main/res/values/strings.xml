@@ -7,6 +7,8 @@
     <string name="successfully_removed">Успешно удалено из закладок</string>
     <string name="error_state_default_state">Не удалось загрузить данные</string>
     <string name="error_state_default_retry">Попробовать снова</string>
+    <string name="feedback_email">lounah@yandex.ru</string>
+    <string name="feedback_email_app_picker">Вы можете написать мне на почту</string>
 
     <!-- FEED -->
     <string name="feed">Новости</string>
@@ -21,5 +23,9 @@
     <string name="send_feedback">Оставить отзыв</string>
     <string name="advanced">Дополнительно</string>
     <string name="bottom_navigation_advanced">Дополнительно</string>
+    <string name="dialog_ok">OK</string>
+    <string name="feedback_left_success_title">Спасибо за фидбэк!</string>
+    <string name="feedback_left_success_title_message">Вы помогаете мне стать лучше</string>
+    <string name="dialog_about_description">Версия %1$s \n @author lounah: t.me/lounvh \n github.com/lounah</string>
 
 </resources>

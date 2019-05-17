@@ -9,10 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.bookmarks.BookmarksFragment
-import com.lounah.tinkoffnews.presentation.common.BaseFragment
 import com.lounah.tinkoffnews.presentation.feed.NewsFeedFragment
-import com.lounah.tinkoffnews.presentation.settings.SettingsFragment
-import timber.log.Timber
+import com.lounah.tinkoffnews.presentation.settings.AdvancedOptionsFragment
 import java.util.LinkedHashSet
 import javax.inject.Inject
 
@@ -49,7 +47,7 @@ class NavigationItemsHelper
                 BottomNavigationItemType.TAB_SETTINGS,
                 object : BottomNavigationFragmentFactory {
                     override fun newInstance(): Fragment {
-                        return SettingsFragment.newInstance()
+                        return AdvancedOptionsFragment.newInstance()
                     }
                 }))
 
@@ -117,7 +115,7 @@ data class BottomNavigationItem(
 enum class BottomNavigationItemType(val fragmentTag: String) {
     TAB_FEED(NewsFeedFragment.getFragmentTag()),
     TAB_BOOKMARKS(BookmarksFragment.getFragmentTag()),
-    TAB_SETTINGS(SettingsFragment.getFragmentTag())
+    TAB_SETTINGS(AdvancedOptionsFragment.getFragmentTag())
 }
 
 interface BottomNavigationFragmentFactory {
