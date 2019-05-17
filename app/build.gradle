@@ -112,6 +112,7 @@ dependencies {
     testImplementation deps.tests.hamcrest
     testImplementation deps.tests.mockito
     testImplementation deps.tests.robolectric
+    testImplementation deps.mocks_maker
 
     androidTestImplementation deps.tests.espressoContrib
     androidTestImplementation deps.tests.androidTestRules

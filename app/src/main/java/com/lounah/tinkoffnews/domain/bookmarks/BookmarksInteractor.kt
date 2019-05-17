@@ -11,7 +11,7 @@ class BookmarksInteractor @Inject constructor(
     private val mapper: NewsFeedMapper
 ) {
     fun fetchBookmarkedStories(): Single<List<StoryViewObject>> = bookmarksRepository.fetchBookmarkedStories()
-            .map { mapper.map(it) }
+        .map { mapper.map(it) }
 
     fun removeStoryFromBookmarks(storyId: Int): Completable = bookmarksRepository.removeFromBookmarks(storyId)
 }
