@@ -3,6 +3,7 @@ package com.lounah.tinkoffnews.presentation.bookmarks
 import com.lounah.tinkoffnews.domain.bookmarks.BookmarksInteractor
 import com.lounah.tinkoffnews.presentation.common.arch.BasePresenter
 import com.lounah.tinkoffnews.presentation.extensions.async
+import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -15,11 +16,11 @@ class BookmarksFragmentPresenter @Inject constructor(
         fetchBookmarkedNews()
     }
 
-    fun removeStoryFromBookrmarks(storyId: Int) {
-        commonDisposable.add(bookmarksInteractor.removeStoryFromBookmarks(storyId)
+    fun removeStoryFromBookmarks(story: StoryViewObject) {
+        commonDisposable.add(bookmarksInteractor.removeStoryFromBookmarks(story.id)
                 .async()
                 .subscribe({
-                    mvpView?.removeStoryFromBookmarks(storyId)
+                    mvpView?.onStoryRemovedFromBookmarks(story)
                 }, {
                     Timber.e(it)
                 }))

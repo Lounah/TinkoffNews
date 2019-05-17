@@ -93,6 +93,11 @@ class MainActivity : BaseActivity(), MainMvpView {
         )
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        supportFragmentManager.findFragmentById(R.id.containerMain)?.onActivityResult(requestCode, resultCode, data)
+    }
+
     private fun restoreTabsStack(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             val stackList = savedInstanceState.getStringArrayList(EXTRA_TABS_STACK)

@@ -1,8 +1,11 @@
 package com.lounah.tinkoffnews.presentation.bookmarks
 
+import android.content.Intent
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.common.BaseFragment
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedAdapter
+import com.lounah.tinkoffnews.presentation.feed.list.StorySummaryViewHolder
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import com.lounah.tinkoffnews.presentation.newsdetails.StoryDetailsActivity
 import kotlinx.android.synthetic.main.fragment_bookmarks.*
@@ -10,6 +13,8 @@ import javax.inject.Inject
 
 private const val VIEW_DATA = 0
 private const val VIEW_PROGRESS = 1
+
+private const val REQUEST_ITEM_STATE_CHANGE = 0x0111
 
 class BookmarksFragment : BaseFragment(), BookmarksFragmentView {
     override val layoutRes = R.layout.fragment_bookmarks
@@ -50,19 +55,37 @@ class BookmarksFragment : BaseFragment(), BookmarksFragmentView {
         adapter.addItems(news)
     }
 
-    override fun removeStoryFromBookmarks(storyId: Int) {
-        adapter.removeItemById(storyId)
+    override fun onStoryRemovedFromBookmarks(story: StoryViewObject) {
+        adapter.removeItem(story)
         showToast(getString(R.string.successfully_removed), null)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_ITEM_STATE_CHANGE) {
+            val recentlyOpenedStoryId = data?.getIntExtra(StoryDetailsActivity.EXTRA_RECENTLY_OPENED_STORY_ID, -1) ?: -1
+            val recentlyOpenedStoryIsSavedToBookmarks = data?.getBooleanExtra(StoryDetailsActivity.EXTRA_RECENTLY_OPENED_STORY_IS_SAVED_TO_BOOKMARKS, false) ?: false
+            if (recentlyOpenedStoryIsSavedToBookmarks.not()) {
+                adapter.removeItemWithId(recentlyOpenedStoryId)
+            }
+        }
+    }
+
 
     private fun initRecyclerView() {
         adapter = NewsFeedAdapter(object : NewsFeedAdapter.OnStoryClickedCallback {
             override fun onStoryClicked(story: StoryViewObject) {
                 context?.let {
-                    startActivity(StoryDetailsActivity.createStartIntent(it, story.id))
+                    startActivityForResult(StoryDetailsActivity.createStartIntent(it, story.id), REQUEST_ITEM_STATE_CHANGE)
                 }
             }
+        }, object : StorySummaryViewHolder.OnBookmarkClickedCallback {
+            override fun onBookmarkClicked(story: StoryViewObject) {
+                presenter.removeStoryFromBookmarks(story)
+            }
         })
+        recyclerViewBookmarks.adapter = adapter
+        recyclerViewBookmarks.layoutManager = LinearLayoutManager(context)
         recyclerViewBookmarks.emptyView = emptyViewBookmarks
     }
 }

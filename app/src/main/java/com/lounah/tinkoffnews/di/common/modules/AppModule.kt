@@ -3,8 +3,11 @@ package com.lounah.tinkoffnews.di.common.modules
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.lounah.tinkoffnews.data.prefs.FontSharedPreferences
+import com.lounah.tinkoffnews.data.source.local.dao.storydetails.SelectStoryDetailsQueryEngine
+import com.lounah.tinkoffnews.data.source.local.dao.storydetails.StoryDetailsDao
 import com.lounah.tinkoffnews.data.source.local.dao.storypreview.SelectStoryPreviewQueryEngine
 import com.lounah.tinkoffnews.data.source.local.dao.storypreview.StoryPreviewsDao
+import com.lounah.tinkoffnews.data.source.local.entity.StoryDetailsEntity
 import com.lounah.tinkoffnews.data.source.local.entity.StoryPreviewEntity
 import com.lounah.tinkoffnews.data.source.local.sql.DatabaseHelper
 import com.lounah.tinkoffnews.data.source.local.sql.queryengine.InsertQueryEngine
@@ -51,13 +54,25 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun storyDetailsDao(sqlLiteDb: SQLiteDatabase,
+                         selectQueryEngine: SelectStoryDetailsQueryEngine,
+                         insertQueryEngine: InsertQueryEngine): StoryDetailsDao {
+        return StoryDetailsDao(sqlLiteDb, selectQueryEngine, insertQueryEngine)
+    }
+
+    @Provides
+    @Singleton
     fun appDatabase(@ApplicationContext context: Context): SQLiteDatabase {
         return DatabaseHelper(context).writableDatabase
     }
 
     @Provides
     @Singleton
-    fun selectQueryEngine(): SelectQueryEngine<StoryPreviewEntity> = SelectStoryPreviewQueryEngine()
+    fun selectStoryPreviewQueryEngine(): SelectQueryEngine<StoryPreviewEntity> = SelectStoryPreviewQueryEngine()
+
+    @Provides
+    @Singleton
+    fun selectStoryDetailsQueryEngine(): SelectQueryEngine<StoryDetailsEntity> = SelectStoryDetailsQueryEngine()
 
     @Provides
     @Singleton

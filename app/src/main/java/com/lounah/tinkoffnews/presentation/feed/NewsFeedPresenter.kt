@@ -3,6 +3,7 @@ package com.lounah.tinkoffnews.presentation.feed
 import com.lounah.tinkoffnews.domain.feed.NewsFeedInteractor
 import com.lounah.tinkoffnews.presentation.common.arch.BasePresenter
 import com.lounah.tinkoffnews.presentation.extensions.async
+import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -40,6 +41,26 @@ class NewsFeedPresenter @Inject constructor(
                         mvpView?.showErrorToast()
                     }
                 }))
+    }
+
+    fun applyBookmarkClick(story: StoryViewObject) {
+        if (story.isBookmarked) {
+            commonDisposable.add(newsFeedInteractor.removeFromBookmarks(story.id)
+                    .async()
+                    .subscribe({
+                        mvpView?.onItemBookmarkedStatusChanged(story.apply { isBookmarked = false })
+                    }, {
+                        Timber.e(it)
+                    }))
+        } else {
+            commonDisposable.add(newsFeedInteractor.markAsBookmarked(story.id)
+                    .async()
+                    .subscribe({
+                        mvpView?.onItemBookmarkedStatusChanged(story.apply { isBookmarked = true })
+                    }, {
+                        Timber.e(it)
+                    }))
+        }
     }
 
     fun onRetryClicked() {

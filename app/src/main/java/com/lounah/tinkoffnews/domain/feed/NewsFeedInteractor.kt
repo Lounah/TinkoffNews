@@ -1,6 +1,7 @@
 package com.lounah.tinkoffnews.domain.feed
 
 import com.lounah.tinkoffnews.data.model.StoryDetails
+import com.lounah.tinkoffnews.data.source.local.entity.StoryDetailsEntity
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -15,7 +16,7 @@ class NewsFeedInteractor @Inject constructor(
             newsFeedRepository.fetchNewsFeed(forceRefresh)
                     .map { newsFeedMapper.map(it) }
 
-    fun fetchStoryById(id: Int): Single<StoryDetails> = newsFeedRepository.fetchStoryById(id)
+    fun fetchStoryById(id: Int): Single<StoryDetailsEntity> = newsFeedRepository.fetchStoryById(id)
 
     fun markAsBookmarked(storyId: Int): Completable = newsFeedRepository.markAsBookmarked(storyId)
 

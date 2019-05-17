@@ -1,5 +1,6 @@
 package com.lounah.tinkoffnews.presentation.feed
 
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.common.BaseFragment
@@ -11,6 +12,8 @@ import kotlinx.android.synthetic.main.fragment_news_feed.*
 import javax.inject.Inject
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
+import com.lounah.tinkoffnews.presentation.feed.list.StorySummaryViewHolder
+import timber.log.Timber
 import kotlin.properties.Delegates
 
 
@@ -21,6 +24,8 @@ private const val VIEW_ERROR = 2
 private const val EXTRA_RECYCLER_VIEW_SCROLL_POSITION = "EXTRA_RECYCLER_VIEW_SCROLL_POSITION"
 
 private const val SCROLLED_ITEMS_TO_SHOW_SCROLL_TO_TOP_FAB_THRESHOLD = 5
+
+private const val REQUEST_ITEM_STATE_CHANGE = 0x0111
 
 class NewsFeedFragment : BaseFragment(), NewsFeedView {
     override val layoutRes = R.layout.fragment_news_feed
@@ -47,7 +52,6 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             }
         }
     }
-
 
     override fun initUI() {
         setUpToolbar()
@@ -92,6 +96,15 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         savedScrollPosition = savedInstanceState?.getInt(EXTRA_RECYCLER_VIEW_SCROLL_POSITION) ?: savedScrollPosition
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_ITEM_STATE_CHANGE) {
+            val recentlyOpenedStoryId = data?.getIntExtra(StoryDetailsActivity.EXTRA_RECENTLY_OPENED_STORY_ID, -1) ?: -1
+            val recentlyOpenedStoryIsSavedToBookmarks = data?.getBooleanExtra(StoryDetailsActivity.EXTRA_RECENTLY_OPENED_STORY_IS_SAVED_TO_BOOKMARKS, false) ?: false
+            newsFeedAdapter.setItemWithIdIsSavedToBookmarks(recentlyOpenedStoryId, recentlyOpenedStoryIsSavedToBookmarks)
+        }
+    }
+
     override fun showErrorToast() {
         showToast(R.string.error_loading_data, gravity = null)
     }
@@ -126,6 +139,10 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         newsFeedAdapter.addItems(feed)
     }
 
+    override fun onItemBookmarkedStatusChanged(item: StoryViewObject) {
+        newsFeedAdapter.updateItem(item)
+    }
+
     override fun hideSwipeRefresh() {
         swipeRefreshNewsFeed.isRefreshing = false
     }
@@ -136,6 +153,11 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             hideNavigationIcon()
             setShouldShowElevation(false)
             setTitle(getString(R.string.feed))
+            setOnClickListener {
+                recyclerViewNewsFeed.post {
+                    recyclerViewNewsFeed.smoothScrollToPosition(0)
+                }
+            }
         }
     }
 
@@ -143,8 +165,12 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
         newsFeedAdapter = NewsFeedAdapter(object : NewsFeedAdapter.OnStoryClickedCallback {
             override fun onStoryClicked(story: StoryViewObject) {
                 context?.let {
-                    startActivity(StoryDetailsActivity.createStartIntent(it, story.id))
+                    startActivityForResult(StoryDetailsActivity.createStartIntent(it, story.id), REQUEST_ITEM_STATE_CHANGE)
                 }
+            }
+        }, object : StorySummaryViewHolder.OnBookmarkClickedCallback {
+            override fun onBookmarkClicked(story: StoryViewObject) {
+                presenter.applyBookmarkClick(story)
             }
         })
         recyclerViewNewsFeed.apply {
@@ -156,7 +182,6 @@ class NewsFeedFragment : BaseFragment(), NewsFeedView {
             newsFeedListOnScrollListener = object : NewsFeedOnScrollListener(newsFeedAdapter) {
                 override fun onLoadBefore(before: StoryViewObject?) {
                     presenter.fetchNewsFeed(forceRefresh = false, initialLoading = false)
-                    // TODO: additional logic
                 }
 
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

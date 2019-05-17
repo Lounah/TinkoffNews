@@ -7,5 +7,5 @@ import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 interface BookmarksFragmentView : MvpView {
     fun showFullscreenLoading()
     fun showBookmarkedNews(news: List<StoryViewObject>)
-    fun removeStoryFromBookmarks(storyId: Int)
+    fun onStoryRemovedFromBookmarks(story: StoryViewObject)
 }
