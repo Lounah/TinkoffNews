@@ -93,6 +93,14 @@ class StoryPreviewsDao @Inject constructor(
         }
     }
 
+    fun getAllBookmarked(): Single<List<StoryPreviewEntity>> {
+        return Single.create { emitter ->
+            val SELECT_QUERY = "SELECT * FROM ${DatabaseContract.StoryPreviewEntityTable.TABLE_NAME} WHERE ${DatabaseContract.StoryPreviewEntityTable.COLUMN_NAME_IS_BOOKMARKED}=1 ORDER BY ${DatabaseContract.StoryPreviewEntityTable.COLUMN_NAME_DATE} DESC"
+            val result = selectQueryEngine.executeRawQuery(SELECT_QUERY, sqLiteDatabase, DatabaseContract.StoryPreviewEntityTable.TABLE_NAME,  0)
+            emitter.onSuccess(result)
+        }
+    }
+
     fun removeFromBookmarks(itemId: Int): Completable {
         return Completable.fromAction {
             val contentValues = ContentValues().apply {

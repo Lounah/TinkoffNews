@@ -1,5 +1,6 @@
 package com.lounah.tinkoffnews.presentation.bookmarks
 
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lounah.tinkoffnews.R
 import com.lounah.tinkoffnews.presentation.common.BaseFragment
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedAdapter
@@ -51,8 +52,8 @@ class BookmarksFragment : BaseFragment(), BookmarksFragmentView {
         adapter.addItems(news)
     }
 
-    override fun removeStoryFromBookmarks(storyId: Int) {
-        adapter.removeItemById(storyId)
+    override fun onStoryRemovedFromBookmarks(story: StoryViewObject) {
+        adapter.removeItem(story)
         showToast(getString(R.string.successfully_removed), null)
     }
 
@@ -65,9 +66,11 @@ class BookmarksFragment : BaseFragment(), BookmarksFragmentView {
             }
         }, object : StorySummaryViewHolder.OnBookmarkClickedCallback {
             override fun onBookmarkClicked(story: StoryViewObject) {
-
+                presenter.removeStoryFromBookmarks(story)
             }
         })
+        recyclerViewBookmarks.adapter = adapter
+        recyclerViewBookmarks.layoutManager = LinearLayoutManager(context)
         recyclerViewBookmarks.emptyView = emptyViewBookmarks
     }
 }
