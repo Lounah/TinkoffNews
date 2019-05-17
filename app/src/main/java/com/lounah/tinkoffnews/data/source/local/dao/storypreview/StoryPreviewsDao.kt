@@ -101,6 +101,18 @@ class StoryPreviewsDao @Inject constructor(
         }
     }
 
+    fun getById(id: Int): Single<StoryPreviewEntity> {
+        return Single.create { emitter ->
+            val SELECT_QUERY = "SELECT * FROM ${DatabaseContract.StoryPreviewEntityTable.TABLE_NAME} WHERE ${DatabaseContract.StoryPreviewEntityTable.COLUMN_NAME_ID}=$id limit 1"
+            val result = selectQueryEngine.executeRawQuery(SELECT_QUERY, sqLiteDatabase, DatabaseContract.StoryPreviewEntityTable.TABLE_NAME,  0)
+            if (result.isNotEmpty()) {
+                emitter.onSuccess(result[0])
+            } else {
+                emitter.onError(Throwable("Empty result set"))
+            }
+        }
+    }
+
     fun removeFromBookmarks(itemId: Int): Completable {
         return Completable.fromAction {
             val contentValues = ContentValues().apply {

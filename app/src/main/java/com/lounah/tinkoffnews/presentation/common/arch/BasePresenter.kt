@@ -57,7 +57,4 @@ abstract class BasePresenter<T : MvpView> : Presenter<T> {
         commonDisposable.add(disposable)
         return disposable
     }
-
-    class MvpViewNotAttachedException : RuntimeException("Please call Presenter.attachView(MvpView) before" +
-            " requesting data to the Presenter")
 }

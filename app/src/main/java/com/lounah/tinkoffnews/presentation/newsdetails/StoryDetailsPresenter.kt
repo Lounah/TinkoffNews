@@ -30,6 +30,26 @@ class StoryDetailsPresenter(
                 }))
     }
 
+    fun addToBookmarks(storyId: Int) {
+        commonDisposable.add(newsFeedInteractor.markAsBookmarked(storyId)
+                .async()
+                .subscribe({
+                    mvpView?.onAddedToBookmarks(storyId)
+                }, {
+                    Timber.e(it)
+                }))
+    }
+
+    fun removeFromBookmarks(storyId: Int) {
+        commonDisposable.add(newsFeedInteractor.removeFromBookmarks(storyId)
+                .async()
+                .subscribe({
+                    mvpView?.onRemovedFromBookmarks(storyId)
+                }, {
+                    Timber.e(it)
+                }))
+    }
+
     fun onChangeFontSizeClicked() {
         fontSharedPreferences.applyNewFontPref()
         fetchCurrentFontPrefs()

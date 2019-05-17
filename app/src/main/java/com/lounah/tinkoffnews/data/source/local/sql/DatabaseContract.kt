@@ -39,10 +39,10 @@ object DatabaseContract {
             const val CREATE_DATABASE = (
                     "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                             + StoryDetailsTable.COLUMN_NAME_ID + " INTEGER PRIMARY KEY, "
-                            + StoryDetailsTable.COLUMN_NAME_NAME + " TEXT,"
-                            + StoryDetailsTable.COLUMN_NAME_TEXT + " TEXT,"
                             + StoryDetailsTable.COLUMN_NAME_TITLE + " TEXT,"
+                            + StoryDetailsTable.COLUMN_NAME_TEXT + " TEXT,"
                             + StoryDetailsTable.COLUMN_NAME_CONTENT + " TEXT,"
+                            + StoryDetailsTable.COLUMN_NAME_NAME + " TEXT,"
                             + StoryDetailsTable.COLUMN_NAME_IS_BOOKMARKED + " BOOLEAN,"
                             + StoryDetailsTable.COLUMN_NAME_DATE + " TEXT );")
 

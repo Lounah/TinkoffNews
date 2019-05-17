@@ -6,8 +6,10 @@ import com.lounah.tinkoffnews.presentation.common.recycler.BaseViewHolder
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import timber.log.Timber
 
-class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback,
-                      private val onBookmarkClickedCallback: StorySummaryViewHolder.OnBookmarkClickedCallback) : BaseAdapter<StoryViewObject>() {
+class NewsFeedAdapter(
+    private val onStoryClickedCallback: OnStoryClickedCallback,
+    private val onBookmarkClickedCallback: StorySummaryViewHolder.OnBookmarkClickedCallback
+) : BaseAdapter<StoryViewObject>() {
 
     interface OnStoryClickedCallback {
         fun onStoryClicked(story: StoryViewObject)
@@ -22,7 +24,7 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<StoryViewObject> {
-        return when(viewType) {
+        return when (viewType) {
             NewsFeedViewHolders.FEED_ITEM.type -> {
                 val viewHolder = StorySummaryViewHolder(parent, onBookMarkClicked = onBookmarkClickedCallback)
                 viewHolder.itemView.setOnClickListener {
@@ -54,11 +56,20 @@ class NewsFeedAdapter(private val onStoryClickedCallback: OnStoryClickedCallback
         }
     }
 
-    fun removeItemById(itemId: Int) {
+    fun setItemWithIdIsSavedToBookmarks(itemId: Int, isSavedToBookmarks: Boolean) {
         val item = items.firstOrNull { it.id == itemId }
         item?.let {
             val index = items.indexOf(it)
-            items.remove(it)
+            items[index].apply { isBookmarked = isSavedToBookmarks }
+            notifyItemChanged(index)
+        }
+    }
+
+    fun removeItemWithId(id: Int) {
+        val item = items.firstOrNull { it.id == id }
+        item?.let {
+            val index = items.indexOf(it)
+            items.removeAt(index)
             notifyItemRemoved(index)
         }
     }
