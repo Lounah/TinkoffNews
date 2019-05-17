@@ -116,8 +116,8 @@ class StoryDetailsActivity : BaseActivity(), StoryDetailsMvpView {
             putExtra(EXTRA_RECENTLY_OPENED_STORY_IS_SAVED_TO_BOOKMARKS, isBookmarked)
         }
         setResult(Activity.RESULT_OK, resultIntent)
-        overridePendingTransition(R.anim.activity_transition_stub, R.anim.activity_transition_ltr_exit)
         finish()
+        overridePendingTransition(R.anim.activity_transition_stub, R.anim.activity_transition_ltr_exit)
     }
 
     override fun onAddedToBookmarks(storyId: Int) {
