@@ -32,6 +32,9 @@ A news viewer app based on Tinkoff API
 https://yadi.sk/d/Pq-k3lkPo12-fQ -- Release
 https://yadi.sk/d/LDM5NCMWA3ypuw -- Debug
 
+# Feedback & Questions
+Feel free to ask me anything here: t.me/lounvh
+
 # Примечания
 Изначально планировал написать два приложения, одно было бы с Rx, Dagger'ом, Room и Retrofit, а второе -- совсем без библиотек
 Потом понял, что на это не хватит времени, и решил выпилиывать из проекта те библиотеки, функционал которых смогу написать руками
