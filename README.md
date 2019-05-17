@@ -29,7 +29,7 @@ A news viewer app based on Tinkoff API
 <li> <a href="">Timber</a></li>
 
 # Download
-https://yadi.sk/d/xiG7JU1Hz6oLfQ -- Release
+https://yadi.sk/d/5CB9AgIYL4ucgg -- Release
 https://yadi.sk/d/_MFkE4sd2eaaww -- Debug
 
 # Примечания
