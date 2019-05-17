@@ -12,6 +12,9 @@ import com.lounah.tinkoffnews.presentation.extensions.*
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import kotlinx.android.synthetic.main.view_story_preview.view.*
 
+/**
+ *  A viewgroup, which displays recycler view's item with news summary
+ */
 class StoryPreview : ViewGroup {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)

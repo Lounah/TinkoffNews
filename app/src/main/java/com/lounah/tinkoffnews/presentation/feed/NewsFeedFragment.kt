@@ -13,7 +13,6 @@ import javax.inject.Inject
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedDecoration
-import com.lounah.tinkoffnews.presentation.feed.list.StorySummaryViewHolder
 import com.lounah.tinkoffnews.presentation.widget.StoryPreview
 import kotlin.properties.Delegates
 
