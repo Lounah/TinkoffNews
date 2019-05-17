@@ -4,10 +4,11 @@ import android.view.ViewGroup
 import com.lounah.tinkoffnews.presentation.common.recycler.BaseAdapter
 import com.lounah.tinkoffnews.presentation.common.recycler.BaseViewHolder
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
+import com.lounah.tinkoffnews.presentation.widget.StoryPreview
 
 class NewsFeedAdapter(
     private val onStoryClickedCallback: OnStoryClickedCallback,
-    private val onBookmarkClickedCallback: StorySummaryViewHolder.OnBookmarkClickedCallback
+    private val onBookmarkClickedCallback: StoryPreview.OnBookmarkClickedCallback
 ) : BaseAdapter<StoryViewObject>() {
 
     interface OnStoryClickedCallback {
@@ -40,7 +41,8 @@ class NewsFeedAdapter(
         val viewType = getItemViewType(position)
 
         when (viewType) {
-            NewsFeedViewHolders.LOADING.type -> { }
+            NewsFeedViewHolders.LOADING.type -> {
+            }
             NewsFeedViewHolders.FEED_ITEM.type -> {
                 (holder as StorySummaryViewHolder).bind(items[position])
             }

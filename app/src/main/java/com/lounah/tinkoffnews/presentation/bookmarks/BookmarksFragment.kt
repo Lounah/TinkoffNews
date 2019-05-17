@@ -8,6 +8,7 @@ import com.lounah.tinkoffnews.presentation.feed.list.NewsFeedAdapter
 import com.lounah.tinkoffnews.presentation.feed.list.StorySummaryViewHolder
 import com.lounah.tinkoffnews.presentation.feed.viewobject.StoryViewObject
 import com.lounah.tinkoffnews.presentation.newsdetails.StoryDetailsActivity
+import com.lounah.tinkoffnews.presentation.widget.StoryPreview
 import kotlinx.android.synthetic.main.fragment_bookmarks.*
 import javax.inject.Inject
 
@@ -79,7 +80,7 @@ class BookmarksFragment : BaseFragment(), BookmarksFragmentView {
                     startActivityForResult(StoryDetailsActivity.createStartIntent(it, story.id), REQUEST_ITEM_STATE_CHANGE)
                 }
             }
-        }, object : StorySummaryViewHolder.OnBookmarkClickedCallback {
+        }, object : StoryPreview.OnBookmarkClickedCallback {
             override fun onBookmarkClicked(story: StoryViewObject) {
                 presenter.removeStoryFromBookmarks(story)
             }
