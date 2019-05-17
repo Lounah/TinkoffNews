@@ -48,8 +48,4 @@ class FontSharedPreferences @Inject constructor(context: Context)
                 .putInt(KEY_CURRENT_FONT_PREF, fontPref.value)
                 .apply()
     }
-
-    fun clear() {
-        sharedPreferences.edit().clear().apply()
-    }
 }

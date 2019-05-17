@@ -13,7 +13,7 @@ android {
         versionCode 1
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        versionName "0.0.1 от " + getDate()
+        versionName "1.0.0 от " + getDate()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "DB_NAME", "\"tinkoff_news.db\"")
         buildConfigField("String", "BASE_URL", "\"https://api.tinkoff.ru/\"")
@@ -109,14 +109,10 @@ dependencies {
     // //// TESTING
     // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     testImplementation deps.tests.junit
-    testImplementation deps.tests.hamcrest
     testImplementation deps.tests.mockito
-    testImplementation deps.tests.robolectric
+    testImplementation deps.mocks_maker
 
-    androidTestImplementation deps.tests.espressoContrib
     androidTestImplementation deps.tests.androidTestRules
-    androidTestImplementation deps.tests.espressoCore
-
 }
 
 static def getDate() {

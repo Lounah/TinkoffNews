@@ -1,10 +1,8 @@
 package com.lounah.tinkoffnews.presentation.common.arch
 
 import com.lounah.tinkoffnews.presentation.extensions.asyncCompletable
-import com.lounah.tinkoffnews.presentation.extensions.asyncFlowable
 import com.lounah.tinkoffnews.presentation.extensions.asyncSingle
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -35,13 +33,6 @@ abstract class BasePresenter<T : MvpView> : Presenter<T> {
         _mvpView = null
         if (::commonDisposable.isInitialized)
             commonDisposable.dispose()
-    }
-
-    fun <T> subscribe(flowable: Flowable<T>, onNext: (result: T) -> Unit, onError: (error: Throwable) -> Unit): Disposable {
-        val disposable = flowable.compose(asyncFlowable())
-                .subscribe(onNext, onError)
-        commonDisposable.add(disposable)
-        return disposable
     }
 
     fun <T> subscribe(single: Single<T>, onNext: (result: T) -> Unit, onError: (error: Throwable) -> Unit): Disposable {

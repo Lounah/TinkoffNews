@@ -5,6 +5,10 @@ import android.text.Layout
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 
+/**
+ *  This one supposed to be a TextView for a story content, but recently i've decided to use WebView for
+ *  this purpose. So [CorrectlyMeasureTextView] is unused.
+ */
 class CorrectlyMeasureTextView : AppCompatTextView {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)

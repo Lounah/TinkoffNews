@@ -32,7 +32,6 @@ class NewsFeedPresenter @Inject constructor(
                         mvpView?.showFullscreenError()
                     } else
                         mvpView?.showData(it)
-
                 }, {
                     Timber.e(it)
                     if (initialLoading) {

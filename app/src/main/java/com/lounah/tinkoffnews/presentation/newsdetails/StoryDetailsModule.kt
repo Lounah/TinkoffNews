@@ -7,7 +7,6 @@ import dagger.Provides
 
 @Module
 class StoryDetailsModule {
-
     @Provides
     fun presenter(
         newsFeedInteractor: NewsFeedInteractor,
