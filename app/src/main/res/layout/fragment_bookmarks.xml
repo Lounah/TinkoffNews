@@ -31,6 +31,8 @@
             <com.lounah.tinkoffnews.presentation.widget.EmptySupportingRecyclerView
                 android:id="@+id/recyclerViewBookmarks"
                 android:layout_width="match_parent"
+                android:paddingTop="16dp"
+                android:clipToPadding="false"
                 android:layout_height="match_parent"/>
 
             <include
