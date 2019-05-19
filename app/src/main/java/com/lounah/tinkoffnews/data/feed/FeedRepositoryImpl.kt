@@ -34,8 +34,7 @@ class FeedRepositoryImpl @Inject constructor(
                 storyPreviewsDao.getAll(limit = PAGING_PAGE_SIZE, offset = PAGING_PAGE_SIZE)
             }
             page != 0 -> {
-                val limit = (page + 1) * PAGING_PAGE_SIZE
-                page++
+                val limit = ++page * PAGING_PAGE_SIZE
                 storyPreviewsDao.getAll(limit, offset = 0)
             }
             else -> storyPreviewsDao.getAll(PAGING_PAGE_SIZE, 0)

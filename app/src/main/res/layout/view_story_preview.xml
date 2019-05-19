@@ -29,7 +29,7 @@
         android:textColor="@color/grayLight"
         android:textSize="12sp"/>
 
-    <com.lounah.tinkoffnews.presentation.widget.ResponsiveImageButton
+    <com.lounah.tinkoffnews.presentation.widget.BookmarkButton
         android:id="@+id/buttonBookmark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -89,27 +89,35 @@ class StoryPreview : ViewGroup {
 
     fun update(obj: StoryViewObject?) {
         obj?.let {
-            textViewTitle.setTextFuture(PrecomputedTextCompat.getTextFuture(obj.title.fromHtml(),
-                    TextViewCompat.getTextMetricsParams(textViewTitle),
-                    null))
-            textViewDate.setTextFuture(PrecomputedTextCompat.getTextFuture(obj.date,
-                    TextViewCompat.getTextMetricsParams(textViewDate),
-                    null))
-            if (obj.isBookmarked) {
-                buttonBookmark.setImageDrawable(context.getDrawableCompat(R.drawable.ic_bookmark_filled))
-            } else {
-                buttonBookmark.setImageDrawable(context.getDrawableCompat(R.drawable.ic_bookmark_white))
-            }
-            buttonBookmark.setOnClickListener {
-                buttonBookmark.apply {
-                    if (obj.isBookmarked) {
-                        buttonBookmark.setImageDrawable(context.getDrawableCompat(R.drawable.ic_bookmark_white))
-                    } else {
-                        buttonBookmark.setImageDrawable(context.getDrawableCompat(R.drawable.ic_bookmark_filled))
-                    }
+            bindStoryText(it)
+            bindBookmarkButton(it)
+        }
+    }
 
-                    onBookmarkClickedCallback?.onBookmarkClicked(obj)
+    private fun bindStoryText(obj: StoryViewObject) {
+        textViewTitle.setTextFuture(PrecomputedTextCompat.getTextFuture(obj.title.fromHtml(),
+            TextViewCompat.getTextMetricsParams(textViewTitle),
+            null))
+        textViewDate.setTextFuture(PrecomputedTextCompat.getTextFuture(obj.date,
+            TextViewCompat.getTextMetricsParams(textViewDate),
+            null))
+    }
+
+    private fun bindBookmarkButton(obj: StoryViewObject) {
+        if (obj.isBookmarked) {
+            buttonBookmark.applyBookmarkedState(enableVibration = false)
+        } else {
+            buttonBookmark.applyBaseState(enableVibration = false)
+        }
+        buttonBookmark.setOnClickListener {
+            buttonBookmark.apply {
+                if (obj.isBookmarked) {
+                    applyBaseState(enableVibration = true)
+                } else {
+                    applyBookmarkedState(enableVibration = true)
                 }
+
+                onBookmarkClickedCallback?.onBookmarkClicked(obj)
             }
         }
     }
