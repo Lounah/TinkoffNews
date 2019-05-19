@@ -63,7 +63,7 @@ class NewsFeedPresenter @Inject constructor(
     }
 
     fun onRetryClicked() {
-        fetchNewsFeed(forceRefresh = true, initialLoading = true)
+        fetchNewsFeed(forceRefresh = false, initialLoading = true)
     }
 
     fun onPullToRefreshTriggered() {

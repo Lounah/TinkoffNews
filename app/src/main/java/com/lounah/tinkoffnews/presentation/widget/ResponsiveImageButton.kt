@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatImageButton
  *  An [AppCompatImageButton], which reacts on user touch events
  *  If u put a finger on it, it will decrease self scale
  */
-class ResponsiveImageButton : AppCompatImageButton {
+open class ResponsiveImageButton : AppCompatImageButton {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
